@@ -14,7 +14,6 @@
 </head>
 <body class="min-h-screen p-4 md:p-6 text-slate-800">
   <div class="max-w-7xl mx-auto">
-    <!-- Cabeçalho -->
     <header class="bg-white rounded-3xl shadow-md p-5 mb-6 flex flex-wrap items-center justify-between gap-4 border-b-4 border-sky-400">
       <div>
         <h1 class="text-2xl md:text-4xl font-bold text-sky-600">🤖 Máquina de Frases</h1>
@@ -30,9 +29,7 @@
       </div>
     </header>
 
-    <!-- Palco da Frase (4 Caixinhas) -->
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-      <!-- Quem (Sujeito) -->
       <div class="card-slot bg-amber-50 border-4 border-amber-400 rounded-3xl p-4 shadow-sm flex flex-col justify-between">
         <div class="flex items-center justify-between mb-2">
           <span class="bg-amber-400 text-amber-950 font-bold px-3 py-1 rounded-full text-sm">1. QUEM? (Sujeito)</span>
@@ -44,7 +41,6 @@
         <input id="input-quem" type="text" placeholder="Ex: O Lucas, A Maria..." class="w-full px-3 py-2 rounded-xl border-2 border-amber-300 focus:outline-none focus:border-amber-500 font-semibold text-lg bg-white" oninput="atualizarFrase()" />
       </div>
 
-      <!-- Faz o quê (Verbo/Ação) -->
       <div class="card-slot bg-sky-50 border-4 border-sky-400 rounded-3xl p-4 shadow-sm flex flex-col justify-between">
         <div class="flex items-center justify-between mb-2">
           <span class="bg-sky-400 text-sky-950 font-bold px-3 py-1 rounded-full text-sm">2. FAZ O QUÊ? (Ação)</span>
@@ -61,7 +57,6 @@
         <input id="input-acao" type="text" placeholder="Ex: pulou, dançou..." class="w-full px-3 py-2 rounded-xl border-2 border-sky-300 focus:outline-none focus:border-sky-500 font-semibold text-lg bg-white" oninput="atualizarFrase()" />
       </div>
 
-      <!-- O quê / Com quem (Complemento) -->
       <div class="card-slot bg-purple-50 border-4 border-purple-400 rounded-3xl p-4 shadow-sm flex flex-col justify-between">
         <div class="flex items-center justify-between mb-2">
           <span class="bg-purple-400 text-purple-950 font-bold px-3 py-1 rounded-full text-sm">3. O QUÊ?</span>
@@ -76,7 +71,6 @@
         <input id="input-oque" type="text" placeholder="Ex: uma maçã..." class="w-full px-3 py-2 rounded-xl border-2 border-purple-300 focus:outline-none focus:border-purple-500 font-semibold text-lg bg-white" oninput="atualizarFrase()" />
       </div>
 
-      <!-- Onde (Lugar) -->
       <div class="card-slot bg-emerald-50 border-4 border-emerald-400 rounded-3xl p-4 shadow-sm flex flex-col justify-between">
         <div class="flex items-center justify-between mb-2">
           <span class="bg-emerald-400 text-emerald-950 font-bold px-3 py-1 rounded-full text-sm">4. ONDE? (Lugar)</span>
@@ -92,7 +86,6 @@
       </div>
     </section>
 
-    <!-- Resultado da Frase -->
     <section class="bg-white rounded-3xl shadow-md p-6 mb-6 border-4 border-indigo-200 text-center">
       <p class="text-xs uppercase tracking-wider font-bold text-indigo-400 mb-1">Frase Montada:</p>
       <div id="frase-final" class="text-2xl md:text-4xl font-bold text-slate-800 min-h-[3rem] flex items-center justify-center">
@@ -100,19 +93,16 @@
       </div>
     </section>
 
-    <!-- Galeria de Desenhos da Turma -->
     <section class="bg-white rounded-3xl shadow-md p-6">
       <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
-        <h2 class="text-xl md:text-2xl font-bold text-slate-700">🎨 Desenhos da Turma (<span id="contador-desenhos">0</span>)</h2>
-        <span id="status-galeria" class="text-sm text-slate-500">Carregando desenhos...</span>
+        <h2 class="text-xl md:text-2xl font-bold text-slate-700">🎨 Desenhos da Turma (<span id="contador-desenhos">59</span>)</h2>
+        <span id="status-galeria" class="text-sm text-slate-500">Clique em um desenho para colocar no Sujeito</span>
       </div>
       <div id="galeria" class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-3"></div>
     </section>
   </div>
 
   <script>
-    let imagemSelecionada = "";
-
     function setPalavra(id, texto) {
       document.getElementById(id).value = texto;
       atualizarFrase();
@@ -151,14 +141,12 @@
       document.getElementById("input-acao").value = "";
       document.getElementById("input-oque").value = "";
       document.getElementById("input-onde").value = "";
-      imagemSelecionada = "";
       document.getElementById("preview-quem").innerHTML = '<span class="text-slate-400 text-sm text-center px-2">Selecione um desenho abaixo</span>';
       atualizarFrase();
     }
 
-    function selecionarDesenho(caminho, nomeArquivo) {
-      imagemSelecionada = caminho;
-      document.getElementById("preview-quem").innerHTML = `<img src="${caminho}" alt="${nomeArquivo}" class="h-full w-full object-contain p-1" />`;
+    function selecionarDesenho(caminho, titulo) {
+      document.getElementById("preview-quem").innerHTML = `<img src="${caminho}" alt="${titulo}" class="h-full w-full object-contain p-1" />`;
       const inputQuem = document.getElementById("input-quem");
       if (!inputQuem.value.trim()) {
         inputQuem.focus();
@@ -166,49 +154,32 @@
       atualizarFrase();
     }
 
-    // Carrega EXCLUSIVAMENTE a partir de desenhos/lista.json (zero tentativas aleatórias)
-    async function carregarDesenhos() {
+    function carregarDesenhos() {
       const galeria = document.getElementById("galeria");
-      const status = document.getElementById("status-galeria");
-      const contador = document.getElementById("contador-desenhos");
+      const totalDesenhos = 59;
 
-      try {
-        const resp = await fetch("desenhos/lista.json?v=" + Date.now());
-        if (!resp.ok) throw new Error("lista.json não encontrado");
-        const arquivos = await resp.json();
+      for (let i = 1; i <= totalDesenhos; i++) {
+        const caminho = `desenhos/${i}.jpg`;
+        const titulo = `Desenho ${i}`;
 
-        if (!Array.isArray(arquivos) || arquivos.length === 0) {
-          status.textContent = "Nenhum desenho listado em desenhos/lista.json.";
-          return;
-        }
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "group bg-slate-50 hover:bg-amber-50 border-2 border-slate-200 hover:border-amber-400 rounded-2xl p-1.5 flex flex-col items-center transition shadow-sm";
+        btn.onclick = () => selecionarDesenho(caminho, titulo);
 
-        contador.textContent = arquivos.length;
-        status.textContent = "Clique em um desenho para colocar no Sujeito";
+        const img = document.createElement("img");
+        img.src = caminho;
+        img.alt = titulo;
+        img.loading = "lazy";
+        img.className = "w-full aspect-square object-cover rounded-xl mb-1";
 
-        arquivos.forEach((nome) => {
-          const caminho = `desenhos/${nome}`;
-          const btn = document.createElement("button");
-          btn.type = "button";
-          btn.className = "group bg-slate-50 hover:bg-amber-50 border-2 border-slate-200 hover:border-amber-400 rounded-2xl p-1.5 flex flex-col items-center transition shadow-sm";
-          btn.onclick = () => selecionarDesenho(caminho, nome);
+        const label = document.createElement("span");
+        label.className = "text-[11px] font-semibold text-slate-600 truncate w-full text-center";
+        label.textContent = `#${i}`;
 
-          const img = document.createElement("img");
-          img.src = caminho;
-          img.alt = nome;
-          img.loading = "lazy";
-          img.className = "w-full aspect-square object-cover rounded-xl mb-1";
-
-          const label = document.createElement("span");
-          label.className = "text-[11px] font-semibold text-slate-600 truncate w-full text-center";
-          label.textContent = nome.replace(/\.[^/.]+$/, "");
-
-          btn.appendChild(img);
-          btn.appendChild(label);
-          galeria.appendChild(btn);
-        });
-      } catch (err) {
-        status.textContent = "Erro ao carregar desenhos/lista.json.";
-        console.error(err);
+        btn.appendChild(img);
+        btn.appendChild(label);
+        galeria.appendChild(btn);
       }
     }
 
