@@ -1293,12 +1293,12 @@
                 O site busca imagens na pasta <strong><code>./desenhos/</code></strong> (ao lado deste arquivo HTML) de 4 formas:
             </p>
             <p style="font-size: 0.85rem; margin-bottom: 8px;">
-                <strong>1. Via arquivo <code>lista.json</code> (Infalível):</strong> Abra o terminal do VS Code na pasta do projeto e rode o comando PowerShell abaixo para listar todos os arquivos automaticamente:
+                <strong>1. Via arquivo <code>lista.json</code> (Infalível na Vercel e PC):</strong> Abra o terminal do VS Code na pasta do projeto e rode o comando PowerShell abaixo para listar todos os desenhos sem caracteres ocultos:
             </p>
-            <pre id="ps-command-text" class="code-snippet-box">dir desenhos -Name | ConvertTo-Json | Out-File -Encoding utf8 desenhos/lista.json</pre>
+            <pre id="ps-command-text" class="code-snippet-box">[System.IO.File]::WriteAllText("$PWD\desenhos\lista.json", (Get-ChildItem desenhos -File -Include *.jpg,*.jpeg,*.png,*.webp,*.gif | Select-Object -ExpandProperty Name | ConvertTo-Json))</pre>
             <p style="font-size: 0.85rem;">
                 <strong>2. Live Server:</strong> Ao abrir com <em>Open with Live Server</em>, a pasta é lida sozinha.<br>
-                <strong>3. Nomes numerados:</strong> Salve como <code>1.jpg</code>, <code>2.png</code>... até <code>50</code>.<br>
+                <strong>3. Nomes numerados:</strong> Salve como <code>1.jpg</code>, <code>2.png</code>... até <code>100</code>.<br>
                 <strong>4. Lista manual:</strong> Edite <code>LISTA_DESENHOS</code> no início do <code>&lt;script&gt;</code>.
             </p>
             <div class="modal-actions">
@@ -2272,21 +2272,38 @@
             });
         }
 
-        // Busca 1: via ./desenhos/lista.json
+        function buildDrawingUrl(rawItem) {
+            const fileName = String(rawItem)
+                .replace(/^\.?\/?desenhos\//i, '')
+                .replace(/^\.?\//, '')
+                .trim();
+            return `${PASTA_DESENHOS}${encodeURIComponent(fileName)}`;
+        }
+
+        // Busca 1: via ./desenhos/lista.json (remove BOM invisível do Windows caso exista)
         async function discoverFromJsonManifest() {
             const found = [];
             try {
-                const res = await fetch(`${PASTA_DESENHOS}lista.json`, { cache: 'no-store' });
+                const res = await fetch(`./${PASTA_DESENHOS}lista.json?v=${Date.now()}`, { cache: 'no-store' });
                 if (!res.ok) return found;
-                const data = await res.json();
-                const list = Array.isArray(data) ? data : (Array.isArray(data.arquivos) ? data.arquivos : []);
+                const rawText = await res.text();
+                const cleanText = rawText.replace(/^\uFEFF/, '').trim();
+                const data = JSON.parse(cleanText);
+                const list = Array.isArray(data)
+                    ? data
+                    : (typeof data === 'string' ? [data] : (Array.isArray(data.arquivos) ? data.arquivos : []));
+
                 list.forEach(item => {
-                    if (typeof item === 'string' && /\.(jpe?g|png|gif|webp|bmp|svg)$/i.test(item)) {
-                        const cleanPath = item.startsWith(PASTA_DESENHOS) ? item : PASTA_DESENHOS + item.replace(/^\.?\//, '');
-                        found.push(cleanPath);
+                    if (typeof item === 'string' && /\.(jpe?g|png|gif|webp|bmp|svg)$/i.test(item.trim())) {
+                        found.push({
+                            name: formatFileCaption(item),
+                            url: buildDrawingUrl(item)
+                        });
                     }
                 });
-            } catch (e) {}
+            } catch (e) {
+                console.warn('Erro ao ler lista.json:', e);
+            }
             return found;
         }
 
@@ -2294,7 +2311,7 @@
         async function discoverFromDirectoryListing() {
             const found = [];
             try {
-                const res = await fetch(PASTA_DESENHOS, { cache: 'no-store' });
+                const res = await fetch(`./${PASTA_DESENHOS}`, { cache: 'no-store' });
                 if (!res.ok) return found;
                 const cType = res.headers.get('content-type') || '';
                 if (!cType.includes('text/html')) return found;
@@ -2304,8 +2321,13 @@
                 doc.querySelectorAll('a[href]').forEach(a => {
                     const href = a.getAttribute('href') || '';
                     if (/\.(jpe?g|png|gif|webp|bmp|svg)$/i.test(href) && !href.startsWith('http')) {
-                        const fileName = href.split('/').pop();
-                        if (fileName) found.push(PASTA_DESENHOS + fileName);
+                        const fileName = decodeURIComponent(href.split('/').pop());
+                        if (fileName) {
+                            found.push({
+                                name: formatFileCaption(fileName),
+                                url: buildDrawingUrl(fileName)
+                            });
+                        }
                     }
                 });
             } catch (e) {}
@@ -2319,57 +2341,65 @@
             badgeEl.textContent = 'Buscando...';
             infoEl.innerHTML = `Lendo <code>./${PASTA_DESENHOS}</code>...`;
 
-            const candidates = new Set();
+            // 1. Prioridade máxima: lista.json (Vercel / Produção)
+            const jsonItems = await discoverFromJsonManifest();
+            if (jsonItems.length > 0) {
+                jsonItems.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR', { numeric: true }));
+                galleryItems = jsonItems;
+                galleryIndex = 0;
+                badgeEl.textContent = `${galleryItems.length} fotos`;
+                infoEl.innerHTML = `Pasta <code>./${PASTA_DESENHOS}</code> (${galleryItems.length} desenhos)`;
+                updateGalleryUI();
+                return;
+            }
 
-            // 1. LISTA_DESENHOS manual
+            // 2. Prioridade 2: Listagem do Live Server / servidor local
+            const dirItems = await discoverFromDirectoryListing();
+            if (dirItems.length > 0) {
+                dirItems.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR', { numeric: true }));
+                galleryItems = dirItems;
+                galleryIndex = 0;
+                badgeEl.textContent = `${galleryItems.length} fotos`;
+                infoEl.innerHTML = `Pasta <code>./${PASTA_DESENHOS}</code> (${galleryItems.length} desenhos)`;
+                updateGalleryUI();
+                return;
+            }
+
+            // 3. Fallback: LISTA_DESENHOS manual ou arquivos numerados (1..100)
+            const candidates = new Set();
             if (Array.isArray(LISTA_DESENHOS)) {
                 LISTA_DESENHOS.forEach(f => {
-                    if (f && typeof f === 'string') {
-                        const p = f.startsWith(PASTA_DESENHOS) ? f : PASTA_DESENHOS + f.replace(/^\.?\//, '');
-                        candidates.add(p);
-                    }
+                    if (f && typeof f === 'string') candidates.add(buildDrawingUrl(f));
                 });
             }
 
-            // 2. lista.json
-            const jsonUrls = await discoverFromJsonManifest();
-            jsonUrls.forEach(u => candidates.add(u));
-
-            // 3. Live Server / diretório HTTP
-            const dirUrls = await discoverFromDirectoryListing();
-            dirUrls.forEach(u => candidates.add(u));
-
-            // 4. Varredura numerada 1..50 (funciona até em file:// direto)
-            const prefixes = ['', 'desenho', 'desenho_', 'desenho-', 'aluno', 'aluno_'];
-            const exts = ['jpg', 'png', 'jpeg', 'webp'];
-            for (let i = 1; i <= 50; i++) {
-                const pad = String(i).padStart(2, '0');
-                for (const pref of prefixes) {
-                    for (const ext of exts) {
-                        candidates.add(`${PASTA_DESENHOS}${pref}${i}.${ext}`);
-                        if (i < 10) candidates.add(`${PASTA_DESENHOS}${pref}${pad}.${ext}`);
+            if (candidates.size === 0) {
+                const prefixes = ['', 'desenho', 'aluno'];
+                const exts = ['jpg', 'png', 'jpeg', 'webp'];
+                for (let i = 1; i <= 100; i++) {
+                    for (const pref of prefixes) {
+                        for (const ext of exts) {
+                            candidates.add(`${PASTA_DESENHOS}${pref}${i}.${ext}`);
+                        }
                     }
                 }
             }
 
             const allList = Array.from(candidates);
             const validUrls = [];
-            const batchSize = 35;
-
-            for (let i = 0; i < allList.length; i += batchSize) {
-                const batch = allList.slice(i, i + batchSize);
+            for (let i = 0; i < allList.length; i += 25) {
+                const batch = allList.slice(i, i + 25);
                 const results = await Promise.all(batch.map(u => checkImageExists(u)));
                 results.forEach(ok => {
                     if (ok && !validUrls.includes(ok)) validUrls.push(ok);
                 });
             }
 
-            validUrls.sort((a, b) => a.localeCompare(b, 'pt-BR', { numeric: true }));
-
             if (validUrls.length > 0) {
+                validUrls.sort((a, b) => a.localeCompare(b, 'pt-BR', { numeric: true }));
                 galleryItems = validUrls.map(url => ({
                     name: formatFileCaption(url),
-                    url: url
+                    url
                 }));
                 galleryIndex = 0;
                 badgeEl.textContent = `${galleryItems.length} fotos`;
