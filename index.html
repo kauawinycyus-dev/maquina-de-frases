@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M├íquina de Frases: Input, Processamento e Output</title>
+    <title>Máquina de Frases: Input, Processamento e Output</title>
     <style>
         /* =========================================================
            1. RESET E ESTILOS GERAIS (100% CSS PURO OFFLINE-READY)
@@ -71,7 +71,7 @@
         }
 
         /* =========================================================
-           2. CABE├çALHO SUPERIOR
+           2. CABEÇALHO SUPERIOR
            ========================================================= */
         .app-header {
             background: linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%);
@@ -174,7 +174,7 @@
             gap: 24px;
         }
 
-        /* SIDEBAR FIXA E CONTIDA ├Ç DIREITA */
+        /* SIDEBAR FIXA E CONTIDA À DIREITA */
         .gallery-sidebar {
             width: 340px;
             flex-shrink: 0;
@@ -206,7 +206,7 @@
         }
 
         /* =========================================================
-           4. SELETOR DE MODOS / N├ìVEIS
+           4. SELETOR DE MODOS / NÍVEIS
            ========================================================= */
         .card-panel {
             background: var(--bg-card);
@@ -504,7 +504,7 @@
         }
 
         /* =========================================================
-           6. ETAPA 2: PROCESSAMENTO (BOT├âO DE SORTEIO)
+           6. ETAPA 2: PROCESSAMENTO (BOTÃO DE SORTEIO)
            ========================================================= */
         .section-process {
             background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%);
@@ -802,7 +802,7 @@
         }
 
         /* =========================================================
-           8. SIDEBAR: GALERIA DA TURMA (ESTILOS R├ìGIDOS E CONTIDOS)
+           8. SIDEBAR: GALERIA DA TURMA (ESTILOS RÍGIDOS E CONTIDOS)
            ========================================================= */
         .sidebar-header {
             background: linear-gradient(135deg, #7c3aed 0%, #c026d3 60%, #db2777 100%);
@@ -913,7 +913,7 @@
             overflow-y: auto;
         }
 
-        /* MOLDURA DA IMAGEM COM PROPOR├ç├âO R├ìGIDA */
+        /* MOLDURA DA IMAGEM COM PROPORÇÃO RÍGIDA */
         .gallery-frame {
             position: relative;
             width: 100%;
@@ -1067,7 +1067,7 @@
         }
 
         /* =========================================================
-           9. ANIMA├ç├òES, TOASTS, MODAIS E CONFETES
+           9. ANIMAÇÕES, TOASTS, MODAIS E CONFETES
            ========================================================= */
         @keyframes shakeBox {
             0%, 100% { transform: rotate(0deg) scale(1); }
@@ -1131,7 +1131,7 @@
         .toast-msg.success { border-left-color: #10b981; }
         .toast-msg.warn { border-left-color: #f59e0b; }
 
-        /* Modais Customizados (Confirma├º├úo e Ajuda PowerShell) */
+        /* Modais Customizados (Confirmação e Ajuda PowerShell) */
         .modal-backdrop {
             position: fixed;
             inset: 0;
@@ -1243,7 +1243,7 @@
             z-index: 9998;
         }
 
-        /* Anima├º├úo suave de transi├º├úo para o slideshow da galeria */
+        /* Animação suave de transição para o slideshow da galeria */
         @keyframes galleryFade {
             0% { opacity: 0.25; transform: scale(0.97); }
             100% { opacity: 1; transform: scale(1); }
@@ -1252,7 +1252,7 @@
             animation: galleryFade 0.45s ease-out forwards;
         }
 
-        /* Vibra├º├úo de alerta quando o campo estiver vazio */
+        /* Vibração de alerta quando o campo estiver vazio */
         @keyframes inputErrorShake {
             0%, 100% { transform: translateX(0); }
             20%, 60% { transform: translateX(-6px); }
@@ -1270,13 +1270,13 @@
     <!-- Canvas para efeito de confetes em CSS/JS puro (funciona 100% offline) -->
     <canvas id="confetti-canvas"></canvas>
 
-    <!-- Notifica├º├Áes Toast -->
+    <!-- Notificações Toast -->
     <div id="toast-container" class="toast-container"></div>
 
-    <!-- Modal de Confirma├º├úo -->
+    <!-- Modal de Confirmação -->
     <div id="confirm-modal" class="modal-backdrop">
         <div class="modal-card">
-            <h3 id="confirm-title">ÔÜá´©Å Confirmar A├º├úo</h3>
+            <h3 id="confirm-title">⚠️ Confirmar Ação</h3>
             <p id="confirm-message">Tem certeza que deseja continuar?</p>
             <div class="modal-actions">
                 <button id="confirm-cancel-btn" class="btn-modal-secondary">Cancelar</button>
@@ -1288,52 +1288,52 @@
     <!-- Modal de Ajuda da Pasta ./desenhos/ -->
     <div id="help-modal" class="modal-backdrop">
         <div class="modal-card">
-            <h3>­ƒôé Como carregar todos os desenhos automaticamente</h3>
+            <h3>📂 Como carregar todos os desenhos automaticamente</h3>
             <p>
                 O site busca imagens na pasta <strong><code>./desenhos/</code></strong> (ao lado deste arquivo HTML) de 4 formas:
             </p>
             <p style="font-size: 0.85rem; margin-bottom: 8px;">
-                <strong>1. Via arquivo <code>lista.json</code> (Infal├¡vel):</strong> Abra o terminal do VS Code na pasta do projeto e rode o comando PowerShell abaixo para listar todos os arquivos automaticamente:
+                <strong>1. Via arquivo <code>lista.json</code> (Infalível):</strong> Abra o terminal do VS Code na pasta do projeto e rode o comando PowerShell abaixo para listar todos os arquivos automaticamente:
             </p>
             <pre id="ps-command-text" class="code-snippet-box">dir desenhos -Name | ConvertTo-Json | Out-File -Encoding utf8 desenhos/lista.json</pre>
             <p style="font-size: 0.85rem;">
-                <strong>2. Live Server:</strong> Ao abrir com <em>Open with Live Server</em>, a pasta ├® lida sozinha.<br>
-                <strong>3. Nomes numerados:</strong> Salve como <code>1.jpg</code>, <code>2.png</code>... at├® <code>50</code>.<br>
-                <strong>4. Lista manual:</strong> Edite <code>LISTA_DESENHOS</code> no in├¡cio do <code>&lt;script&gt;</code>.
+                <strong>2. Live Server:</strong> Ao abrir com <em>Open with Live Server</em>, a pasta é lida sozinha.<br>
+                <strong>3. Nomes numerados:</strong> Salve como <code>1.jpg</code>, <code>2.png</code>... até <code>50</code>.<br>
+                <strong>4. Lista manual:</strong> Edite <code>LISTA_DESENHOS</code> no início do <code>&lt;script&gt;</code>.
             </p>
             <div class="modal-actions">
-                <button onclick="copyPsCommand()" class="btn-modal-secondary">­ƒôï Copiar Comando</button>
+                <button onclick="copyPsCommand()" class="btn-modal-secondary">📋 Copiar Comando</button>
                 <button onclick="closeHelpModal()" class="btn-modal-primary">Entendi!</button>
             </div>
         </div>
     </div>
 
-    <!-- Cabe├ºalho Principal -->
+    <!-- Cabeçalho Principal -->
     <header class="app-header">
         <div class="header-inner">
             <div class="header-brand">
-                <div class="brand-icon">­ƒñû</div>
+                <div class="brand-icon">🤖</div>
                 <div>
-                    <h1>M├íquina de Frases</h1>
+                    <h1>Máquina de Frases</h1>
                     <p class="header-subtitle">
                         Pensamento Computacional:
-                        <span class="pill-badge pill-in">Input</span> Ô×ö
-                        <span class="pill-badge pill-proc">Processamento</span> Ô×ö
+                        <span class="pill-badge pill-in">Input</span> ➔
+                        <span class="pill-badge pill-proc">Processamento</span> ➔
                         <span class="pill-badge pill-out">Output</span>
                     </p>
                 </div>
             </div>
 
-            <!-- Controles do Cabe├ºalho: Sons + Restaurar Padr├Áes -->
+            <!-- Controles do Cabeçalho: Sons + Restaurar Padrões -->
             <div class="header-actions">
                 <button id="sound-toggle-btn" onclick="toggleSoundFX()" class="btn-sound-header">
-                    <span id="sound-toggle-icon">­ƒöè</span>
+                    <span id="sound-toggle-icon">🔊</span>
                     <span id="sound-toggle-text">Sons: Ligados</span>
                 </button>
 
                 <button onclick="requestResetDefaults()" class="btn-reset-header">
-                    <span>­ƒöä</span>
-                    <span>Restaurar Exemplos Padr├úo</span>
+                    <span>🔄</span>
+                    <span>Restaurar Exemplos Padrão</span>
                 </button>
             </div>
         </div>
@@ -1342,44 +1342,44 @@
     <!-- CONTAINER PRINCIPAL LADO A LADO -->
     <div class="workspace-layout">
 
-        <!-- ├üREA PRINCIPAL ├Ç ESQUERDA -->
+        <!-- ÁREA PRINCIPAL À ESQUERDA -->
         <main class="main-area">
 
-            <!-- Seletor de Modos / N├¡veis -->
-            <section class="card-panel" aria-label="Sele├º├úo de N├¡vel">
+            <!-- Seletor de Modos / Níveis -->
+            <section class="card-panel" aria-label="Seleção de Nível">
                 <div class="mode-header">
-                    <span class="mode-label">­ƒÄ» Escolha o Modo da Aula:</span>
-                    <span id="mode-description" class="mode-desc-badge">Estrutura: Sujeito + A├º├úo + Lugar</span>
+                    <span class="mode-label">🎯 Escolha o Modo da Aula:</span>
+                    <span id="mode-description" class="mode-desc-badge">Estrutura: Sujeito + Ação + Lugar</span>
                 </div>
                 <div id="mode-tabs" class="mode-tabs-grid"></div>
             </section>
 
             <!-- ETAPA 1: INPUT -->
-            <section class="section-input" aria-label="├ürea de Input">
+            <section class="section-input" aria-label="Área de Input">
                 <div class="section-title-row">
                     <div class="section-title-left">
-                        <span class="step-badge step-badge-blue">­ƒôÑ 1. INPUT (Entrada)</span>
+                        <span class="step-badge step-badge-blue">📥 1. INPUT (Entrada)</span>
                         <h2>Alimente as Caixas com Dados</h2>
                     </div>
-                    <span class="hint-pill">­ƒÆí Digite palavras ou nomes e aperte <strong>Enter</strong></span>
+                    <span class="hint-pill">💡 Digite palavras ou nomes e aperte <strong>Enter</strong></span>
                 </div>
 
                 <div id="boxes-container" class="boxes-grid"></div>
             </section>
 
             <!-- ETAPA 2: PROCESSAMENTO -->
-            <section class="section-process" aria-label="├ürea de Processamento">
-                <span class="step-badge step-badge-amber">ÔÜÖ´©Å 2. PROCESSAMENTO (Algoritmo)</span>
+            <section class="section-process" aria-label="Área de Processamento">
+                <span class="step-badge step-badge-amber">⚙️ 2. PROCESSAMENTO (Algoritmo)</span>
                 <h2>Pronto para misturar e sortear os dados?</h2>
-                <p>O computador vai chacoalhar as caixas e escolher <strong>1 item aleat├│rio</strong> de cada categoria!</p>
+                <p>O computador vai chacoalhar as caixas e escolher <strong>1 item aleatório</strong> de cada categoria!</p>
 
                 <button id="process-btn" class="btn-process" onclick="startProcessing()">
-                    <span id="process-icon">ÔÜÖ´©Å</span>
+                    <span id="process-icon">⚙️</span>
                     <span id="process-text">PROCESSAR / SORTEAR DADOS!</span>
                 </button>
 
                 <div id="processing-status" class="progress-wrapper">
-                    <div class="progress-label">­ƒÄ▓ Misturando caixas e sorteando combina├º├Áes...</div>
+                    <div class="progress-label">🎲 Misturando caixas e sorteando combinações...</div>
                     <div class="progress-track">
                         <div id="progress-bar" class="progress-fill"></div>
                     </div>
@@ -1387,51 +1387,51 @@
             </section>
 
             <!-- ETAPA 3: OUTPUT -->
-            <section id="output-section" class="section-output" aria-label="├ürea de Output">
+            <section id="output-section" class="section-output" aria-label="Área de Output">
                 <div class="section-title-row">
                     <div class="section-title-left">
-                        <span class="step-badge step-badge-emerald">­ƒôñ 3. OUTPUT (Sa├¡da)</span>
+                        <span class="step-badge step-badge-emerald">📤 3. OUTPUT (Saída)</span>
                         <h2>Resultado do Sorteio</h2>
                     </div>
 
                     <button id="speak-btn" class="btn-speak" onclick="speakSentence()" disabled>
-                        <span>­ƒöè</span>
+                        <span>🔊</span>
                         <span>Ouvir Frase em Voz Alta</span>
                     </button>
                 </div>
 
                 <div id="output-cards-container" class="output-cards-stage">
                     <div class="output-placeholder">
-                        <div style="font-size: 2rem; margin-bottom: 6px;">Ô£¿</div>
+                        <div style="font-size: 2rem; margin-bottom: 6px;">✨</div>
                         <p>Clique em <strong>"PROCESSAR / SORTEAR DADOS!"</strong> acima para gerar uma frase!</p>
                     </div>
                 </div>
 
-                <!-- Desafio da Crian├ºa -->
+                <!-- Desafio da Criança -->
                 <div id="challenge-box" class="challenge-panel">
                     <div class="challenge-top">
-                        <h3>Ô£Å´©Å Desafio da Crian├ºa: Monte e Escreva a Frase!</h3>
-                        <span class="debug-badge">Depura├º├úo (Debug) & Concord├óncia</span>
+                        <h3>✏️ Desafio da Criança: Monte e Escreva a Frase!</h3>
+                        <span class="debug-badge">Depuração (Debug) & Concordância</span>
                     </div>
                     <p class="challenge-desc">
-                        Observe os cart├Áes sorteados acima e <strong>digite a frase completa</strong> abaixo, fazendo os ajustes de concord├óncia necess├írios:
+                        Observe os cartões sorteados acima e <strong>digite a frase completa</strong> abaixo, fazendo os ajustes de concordância necessários:
                     </p>
 
                     <div class="challenge-form">
                         <input type="text" id="final-sentence-input"
-                               placeholder="Olhe os cart├Áes acima e digite aqui a frase completa..."
+                               placeholder="Olhe os cartões acima e digite aqui a frase completa..."
                                class="final-input"
                                onkeydown="if(event.key === 'Enter') completeSentence()">
 
                         <button onclick="completeSentence()" class="btn-complete">
-                            <span>­ƒÄë</span>
+                            <span>🎉</span>
                             <span>Concluir Frase</span>
                         </button>
                     </div>
 
                     <div id="completed-history-wrapper" class="mural-wrapper">
                         <div class="mural-header">
-                            <h4>­ƒÅå Mural de Frases Criadas pela Turma</h4>
+                            <h4>🏆 Mural de Frases Criadas pela Turma</h4>
                             <button onclick="clearCompletedHistory()" class="btn-clear-mural">Limpar Mural</button>
                         </div>
                         <ul id="completed-list" class="mural-list"></ul>
@@ -1441,14 +1441,14 @@
 
         </main>
 
-        <!-- SIDEBAR FIXA E CONTIDA ├Ç DIREITA: GALERIA DA TURMA -->
+        <!-- SIDEBAR FIXA E CONTIDA À DIREITA: GALERIA DA TURMA -->
         <aside class="gallery-sidebar" aria-label="Galeria da Turma">
             <div class="sidebar-header">
                 <div class="sidebar-title-group">
-                    <div class="sidebar-icon">­ƒÄ¿</div>
+                    <div class="sidebar-icon">🎨</div>
                     <div>
                         <h2>Galeria da Turma</h2>
-                        <p>Desenhos em loop cont├¡nuo</p>
+                        <p>Desenhos em loop contínuo</p>
                     </div>
                 </div>
                 <span id="gallery-badge-source" class="sidebar-badge">Buscando...</span>
@@ -1459,7 +1459,7 @@
                     Pasta <code>./desenhos/</code>
                 </div>
                 <div class="sidebar-mini-actions">
-                    <button class="btn-sidebar-mini" onclick="scanLocalDrawingsFolder()" title="Recarregar pasta ./desenhos/">­ƒöä</button>
+                    <button class="btn-sidebar-mini" onclick="scanLocalDrawingsFolder()" title="Recarregar pasta ./desenhos/">🔄</button>
                     <button class="btn-sidebar-mini" onclick="openHelpModal()" title="Ajuda para carregar desenhos">?</button>
                 </div>
             </div>
@@ -1468,8 +1468,8 @@
                 <!-- Moldura Proporcional da Imagem (aspect-ratio: 4/3, max-height: 240px) -->
                 <div class="gallery-frame">
                     <img id="gallery-current-img" src="" alt="Desenho do aluno">
-                    <button class="gallery-nav-btn gallery-prev" onclick="prevSlide()" title="Anterior">ÔùÇ</button>
-                    <button class="gallery-nav-btn gallery-next" onclick="nextSlide()" title="Pr├│ximo">ÔûÂ</button>
+                    <button class="gallery-nav-btn gallery-prev" onclick="prevSlide()" title="Anterior">◀</button>
+                    <button class="gallery-nav-btn gallery-next" onclick="nextSlide()" title="Próximo">▶</button>
                     <span id="gallery-counter" class="gallery-counter-pill">1 / 4</span>
                     <div class="gallery-progress-track">
                         <div id="gallery-timer-bar" class="gallery-progress-bar"></div>
@@ -1478,19 +1478,19 @@
 
                 <!-- Legenda da Obra -->
                 <div class="gallery-caption-box">
-                    <span class="gallery-caption-label">Obra em Exibi├º├úo</span>
-                    <div id="gallery-caption" class="gallery-caption-title">Exemplo 1 - O Cachorro no Sof├í</div>
+                    <span class="gallery-caption-label">Obra em Exibição</span>
+                    <div id="gallery-caption" class="gallery-caption-title">Exemplo 1 - O Cachorro no Sofá</div>
                 </div>
 
-                <!-- Controles de Reprodu├º├úo e Velocidade -->
+                <!-- Controles de Reprodução e Velocidade -->
                 <div class="gallery-controls-row">
                     <button id="gallery-play-btn" class="btn-gallery-toggle" onclick="toggleGalleryPlay()">
-                        <span id="gallery-play-icon">ÔÅ©´©Å</span>
+                        <span id="gallery-play-icon">⏸️</span>
                         <span id="gallery-play-text">Pausar Loop</span>
                     </button>
 
                     <div class="speed-selector-box">
-                        <label for="gallery-speed" title="Tempo por slide">ÔÅ▒´©Å</label>
+                        <label for="gallery-speed" title="Tempo por slide">⏱️</label>
                         <select id="gallery-speed" onchange="changeGallerySpeed()">
                             <option value="3000">3s</option>
                             <option value="5000" selected>5s</option>
@@ -1506,75 +1506,75 @@
 
     <script>
         // =========================================================================
-        // CONFIGURA├ç├âO DA PASTA LOCAL DE DESENHOS (./desenhos/)
+        // CONFIGURAÇÃO DA PASTA LOCAL DE DESENHOS (./desenhos/)
         // =========================================================================
         const PASTA_DESENHOS = 'desenhos/';
         const LISTA_DESENHOS = [
-            // Adicione nomes espec├¡ficos aqui se quiser, ex: 'joao.jpg', 'maria.png'
+            // Adicione nomes específicos aqui se quiser, ex: 'joao.jpg', 'maria.png'
         ];
 
         // =========================================================================
-        // 1. DEFINI├ç├âO DOS N├ìVEIS E DADOS INICIAIS DA M├üQUINA DE FRASES
+        // 1. DEFINIÇÃO DOS NÍVEIS E DADOS INICIAIS DA MÁQUINA DE FRASES
         // =========================================================================
         const MODES_CONFIG = [
             {
                 id: 'nivel1',
-                title: 'N├¡vel 1: 3 Caixas',
-                subtitle: 'Sujeito + A├º├úo + Lugar',
-                description: 'Estrutura: Sujeito + A├º├úo + Lugar',
+                title: 'Nível 1: 3 Caixas',
+                subtitle: 'Sujeito + Ação + Lugar',
+                description: 'Estrutura: Sujeito + Ação + Lugar',
                 boxes: [
                     {
                         id: 'sujeito',
                         label: 'Sujeito',
-                        emoji: '­ƒºæ',
+                        emoji: '🧑',
                         color: '#3b82f6',
                         placeholder: 'Ex: O gato...',
-                        defaults: ['O cachorro', 'A menina', 'O rob├┤', 'O astronauta', 'A professora']
+                        defaults: ['O cachorro', 'A menina', 'O robô', 'O astronauta', 'A professora']
                     },
                     {
                         id: 'acao',
-                        label: 'A├º├úo (Verbo)',
-                        emoji: 'ÔÜí',
+                        label: 'Ação (Verbo)',
+                        emoji: '⚡',
                         color: '#f59e0b',
                         placeholder: 'Ex: pulou...',
-                        defaults: ['pulou', 'dan├ºou', 'correu', 'desenhou', 'cantou']
+                        defaults: ['pulou', 'dançou', 'correu', 'desenhou', 'cantou']
                     },
                     {
                         id: 'lugar',
                         label: 'Lugar',
-                        emoji: '­ƒôì',
+                        emoji: '📍',
                         color: '#10b981',
                         placeholder: 'Ex: na escola...',
-                        defaults: ['no sof├í', 'na escola', 'no parque', 'na lua', 'na praia']
+                        defaults: ['no sofá', 'na escola', 'no parque', 'na lua', 'na praia']
                     }
                 ]
             },
             {
                 id: 'nivel2',
-                title: 'N├¡vel 2: 4 Caixas',
-                subtitle: 'Momento + Pessoa + A├º├úo + Comida',
-                description: 'Estrutura: Momento + Pessoa + A├º├úo + Comida',
+                title: 'Nível 2: 4 Caixas',
+                subtitle: 'Momento + Pessoa + Ação + Comida',
+                description: 'Estrutura: Momento + Pessoa + Ação + Comida',
                 boxes: [
                     {
                         id: 'momento',
                         label: 'Momento',
-                        emoji: 'ÔÅ░',
+                        emoji: '⏰',
                         color: '#8b5cf6',
                         placeholder: 'Ex: No recreio...',
-                        defaults: ['No almo├ºo', 'Na janta', 'No caf├® da manh├ú', 'No recreio']
+                        defaults: ['No almoço', 'Na janta', 'No café da manhã', 'No recreio']
                     },
                     {
                         id: 'pessoa',
                         label: 'Pessoa',
-                        emoji: '­ƒºÆ',
+                        emoji: '🧒',
                         color: '#3b82f6',
                         placeholder: 'Ex: Lucas...',
                         defaults: ['eu', 'Ana', 'Pedro', 'a turma']
                     },
                     {
                         id: 'acao2',
-                        label: 'A├º├úo',
-                        emoji: '­ƒì¢´©Å',
+                        label: 'Ação',
+                        emoji: '🍽️',
                         color: '#f59e0b',
                         placeholder: 'Ex: saboreou...',
                         defaults: ['comi', 'tomou', 'comeu', 'preparou']
@@ -1582,23 +1582,23 @@
                     {
                         id: 'comida',
                         label: 'Comida',
-                        emoji: '­ƒìò',
+                        emoji: '🍕',
                         color: '#ec4899',
                         placeholder: 'Ex: melancia...',
-                        defaults: ['feij├úo', 'sopa', 'p├úo', 'bolo de cenoura']
+                        defaults: ['feijão', 'sopa', 'pão', 'bolo de cenoura']
                     }
                 ]
             },
             {
                 id: 'nivel3',
-                title: 'N├¡vel 3: 5 Caixas',
-                subtitle: 'Clima + Personagem + A├º├úo + Objeto + Lugar',
-                description: 'Estrutura: Clima + Personagem + A├º├úo + Objeto + Lugar',
+                title: 'Nível 3: 5 Caixas',
+                subtitle: 'Clima + Personagem + Ação + Objeto + Lugar',
+                description: 'Estrutura: Clima + Personagem + Ação + Objeto + Lugar',
                 boxes: [
                     {
                         id: 'clima',
                         label: 'Clima',
-                        emoji: '­ƒîª´©Å',
+                        emoji: '🌦️',
                         color: '#06b6d4',
                         placeholder: 'Ex: Em um dia de sol...',
                         defaults: ['Em um dia chuvoso', 'Em um dia quente', 'Em um dia frio', 'Em uma noite estrelada']
@@ -1606,15 +1606,15 @@
                     {
                         id: 'personagem',
                         label: 'Personagem',
-                        emoji: '­ƒÉ╗',
+                        emoji: '🐻',
                         color: '#3b82f6',
-                        placeholder: 'Ex: o drag├úo...',
-                        defaults: ['o sapo', 'a crian├ºa', 'o urso', 'a fada']
+                        placeholder: 'Ex: o dragão...',
+                        defaults: ['o sapo', 'a criança', 'o urso', 'a fada']
                     },
                     {
                         id: 'acao3',
-                        label: 'A├º├úo',
-                        emoji: '­ƒÜÇ',
+                        label: 'Ação',
+                        emoji: '🚀',
                         color: '#f59e0b',
                         placeholder: 'Ex: encontrou...',
                         defaults: ['pulou', 'tomou', 'vestiu', 'achou']
@@ -1622,15 +1622,15 @@
                     {
                         id: 'objeto',
                         label: 'Objeto',
-                        emoji: '­ƒÄÆ',
+                        emoji: '🎒',
                         color: '#8b5cf6',
                         placeholder: 'Ex: um livro...',
-                        defaults: ['a po├ºa', 'sorvete', 'o cachecol', 'um guarda-chuva']
+                        defaults: ['a poça', 'sorvete', 'o cachecol', 'um guarda-chuva']
                     },
                     {
                         id: 'lugar3',
                         label: 'Lugar',
-                        emoji: '­ƒù║´©Å',
+                        emoji: '🗺️',
                         color: '#10b981',
                         placeholder: 'Ex: na floresta...',
                         defaults: ['no parque', 'na praia', 'na montanha', 'no castelo']
@@ -1640,39 +1640,39 @@
             {
                 id: 'turma',
                 title: 'Modo Turma',
-                subtitle: 'Nomes + Verbos + A├º├úo',
-                description: 'Modo Personalizado: Nomes dos Alunos + Verbos + A├º├úo',
+                subtitle: 'Nomes + Verbos + Ação',
+                description: 'Modo Personalizado: Nomes dos Alunos + Verbos + Ação',
                 boxes: [
                     {
                         id: 'nomes_alunos',
                         label: 'Nomes dos Alunos',
-                        emoji: '­ƒÄô',
+                        emoji: '🎓',
                         color: '#2563eb',
                         placeholder: 'Digite o nome do aluno...',
-                        defaults: ['Alice', 'Bernardo', 'Cec├¡lia', 'Davi', 'Helena', 'Miguel']
+                        defaults: ['Alice', 'Bernardo', 'Cecília', 'Davi', 'Helena', 'Miguel']
                     },
                     {
                         id: 'verbos_turma',
                         label: 'Verbos',
-                        emoji: 'ÔÜí',
+                        emoji: '⚡',
                         color: '#d97706',
                         placeholder: 'Ex: programou, pintou...',
                         defaults: ['programou', 'desenhou', 'inventou', 'consertou', 'descobriu']
                     },
                     {
                         id: 'acao_complemento',
-                        label: 'A├º├úo / Complemento',
-                        emoji: '­ƒÆí',
+                        label: 'Ação / Complemento',
+                        emoji: '💡',
                         color: '#059669',
                         placeholder: 'Ex: um jogo divertido...',
-                        defaults: ['um rob├┤ dan├ºante', 'um foguete espacial', 'uma hist├│ria em quadrinhos', 'um jogo de computador']
+                        defaults: ['um robô dançante', 'um foguete espacial', 'uma história em quadrinhos', 'um jogo de computador']
                     }
                 ]
             }
         ];
 
         // =========================================================================
-        // 2. ESTADO DA APLICA├ç├âO E LOCALSTORAGE
+        // 2. ESTADO DA APLICAÇÃO E LOCALSTORAGE
         // =========================================================================
         const STORAGE_KEY = 'maquina_frases_v2_data';
         const HISTORY_KEY = 'maquina_frases_v2_history';
@@ -1710,12 +1710,12 @@
 
             if (soundEnabled) {
                 btn.classList.remove('muted');
-                icon.textContent = '­ƒöè';
+                icon.textContent = '🔊';
                 text.textContent = 'Sons: Ligados';
                 playSound('pop');
             } else {
                 btn.classList.add('muted');
-                icon.textContent = '­ƒöç';
+                icon.textContent = '🔇';
                 text.textContent = 'Sons: Mudos';
             }
         }
@@ -1753,7 +1753,7 @@
                 osc.start(now);
                 osc.stop(now + 0.15);
             } else if (type === 'mode') {
-                // Som "boing/clique" ao trocar de n├¡vel
+                // Som "boing/clique" ao trocar de nível
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
                 osc.type = 'sine';
@@ -1781,8 +1781,8 @@
                 osc.start(now);
                 osc.stop(now + 0.055);
             } else if (type === 'reveal') {
-                // Acorde m├ígico "t├ú-d├ú!" na revela├º├úo dos cart├Áes
-                const notes = [523.25, 659.25, 783.99, 1046.50]; // D├│, Mi, Sol, D├│5
+                // Acorde mágico "tã-dã!" na revelação dos cartões
+                const notes = [523.25, 659.25, 783.99, 1046.50]; // Dó, Mi, Sol, Dó5
                 notes.forEach((freq, idx) => {
                     const osc = ctx.createOscillator();
                     const gain = ctx.createGain();
@@ -1815,12 +1815,12 @@
             } else if (type === 'fanfare') {
                 // Fanfarra comemorativa brilhante ao concluir a frase
                 const melody = [
-                    { f: 523.25, t: 0.00, d: 0.14 }, // D├│
+                    { f: 523.25, t: 0.00, d: 0.14 }, // Dó
                     { f: 659.25, t: 0.11, d: 0.14 }, // Mi
                     { f: 783.99, t: 0.22, d: 0.14 }, // Sol
-                    { f: 1046.50, t: 0.34, d: 0.45 }, // D├│ agudo
+                    { f: 1046.50, t: 0.34, d: 0.45 }, // Dó agudo
                     { f: 783.99, t: 0.52, d: 0.14 }, // Sol
-                    { f: 1046.50, t: 0.66, d: 0.65 }  // D├│ final
+                    { f: 1046.50, t: 0.66, d: 0.65 }  // Dó final
                 ];
                 melody.forEach(note => {
                     const osc = ctx.createOscillator();
@@ -1854,7 +1854,7 @@
         }
 
         // =========================================================================
-        // 3. RENDERIZA├ç├âO DAS ABAS E CAIXAS DE INPUT
+        // 3. RENDERIZAÇÃO DAS ABAS E CAIXAS DE INPUT
         // =========================================================================
         function getCurrentMode() {
             return MODES_CONFIG.find(m => m.id === currentModeId) || MODES_CONFIG[0];
@@ -1897,7 +1897,7 @@
                     ? items.map((word, idx) => `
                         <li class="word-chip">
                             <span>${escapeHtml(word)}</span>
-                            <button class="btn-remove-word" onclick="removeWord('${box.id}', ${idx})" title="Remover">├ù</button>
+                            <button class="btn-remove-word" onclick="removeWord('${box.id}', ${idx})" title="Remover">×</button>
                         </li>
                     `).join('')
                     : `<li class="empty-box-msg">Caixa vazia! Adicione palavras acima.</li>`;
@@ -1963,7 +1963,7 @@
             const mode = getCurrentMode();
             const box = mode.boxes.find(b => b.id === boxId);
             openConfirmModal(
-                '­ƒùæ´©Å Esvaziar Caixa',
+                '🗑️ Esvaziar Caixa',
                 `Deseja remover todos os itens da caixa "${box ? box.label : ''}"?`,
                 () => {
                     appData[currentModeId][boxId] = [];
@@ -1977,8 +1977,8 @@
 
         function requestResetDefaults() {
             openConfirmModal(
-                '­ƒöä Restaurar Exemplos Padr├úo',
-                'Isso vai restaurar as palavras originais de todas as caixas em todos os n├¡veis. Deseja continuar?',
+                '🔄 Restaurar Exemplos Padrão',
+                'Isso vai restaurar as palavras originais de todas as caixas em todos os níveis. Deseja continuar?',
                 () => {
                     MODES_CONFIG.forEach(mode => {
                         appData[mode.id] = {};
@@ -1990,7 +1990,7 @@
                     playSound('mode');
                     renderBoxes();
                     resetOutputStage();
-                    showToast('Exemplos padr├úo restaurados!', 'success');
+                    showToast('Exemplos padrão restaurados!', 'success');
                 }
             );
         }
@@ -2004,7 +2004,7 @@
             document.getElementById('challenge-box').classList.remove('visible');
             document.getElementById('output-cards-container').innerHTML = `
                 <div class="output-placeholder">
-                    <div style="font-size: 2rem; margin-bottom: 6px;">Ô£¿</div>
+                    <div style="font-size: 2rem; margin-bottom: 6px;">✨</div>
                     <p>Clique em <strong>"PROCESSAR / SORTEAR DADOS!"</strong> acima para gerar uma frase!</p>
                 </div>
             `;
@@ -2014,12 +2014,12 @@
             if (isProcessing) return;
             const mode = getCurrentMode();
 
-            // Verifica se todas as caixas t├¬m pelo menos 1 item
+            // Verifica se todas as caixas têm pelo menos 1 item
             for (const box of mode.boxes) {
                 const list = appData[mode.id][box.id] || [];
                 if (list.length === 0) {
                     playSound('error');
-                    showToast(`A caixa "${box.label}" est├í vazia! Adicione pelo menos 1 item.`, 'warn');
+                    showToast(`A caixa "${box.label}" está vazia! Adicione pelo menos 1 item.`, 'warn');
                     const inputEl = document.getElementById(`input-${box.id}`);
                     if (inputEl) inputEl.focus();
                     return;
@@ -2059,7 +2059,7 @@
                 progressBar.style.width = `${pct}%`;
                 playSound('tick', stepCount);
 
-                // Mostra pr├®via embaralhada r├ípida no palco de output
+                // Mostra prévia embaralhada rápida no palco de output
                 const previewHtml = mode.boxes.map(box => {
                     const list = appData[mode.id][box.id];
                     const randWord = list[Math.floor(Math.random() * list.length)];
@@ -2080,7 +2080,7 @@
         }
 
         function finishProcessing(mode) {
-            // Para anima├º├úo das caixas
+            // Para animação das caixas
             mode.boxes.forEach(box => {
                 const card = document.getElementById(`box-card-${box.id}`);
                 if (card) card.classList.remove('shaking');
@@ -2098,7 +2098,7 @@
                 };
             });
 
-            // Renderiza cart├Áes finais
+            // Renderiza cartões finais
             const stage = document.getElementById('output-cards-container');
             stage.innerHTML = lastDrawnResult.map(item => `
                 <div class="result-card" style="--card-color: ${item.color};">
@@ -2107,7 +2107,7 @@
                 </div>
             `).join('');
 
-            // Deixa o campo da crian├ºa COMPLETAMENTE EM BRANCO para ela digitar a frase
+            // Deixa o campo da criança COMPLETAMENTE EM BRANCO para ela digitar a frase
             const inputFinal = document.getElementById('final-sentence-input');
             inputFinal.value = '';
             inputFinal.classList.remove('animate-input-error');
@@ -2115,10 +2115,10 @@
             document.getElementById('challenge-box').classList.add('visible');
             document.getElementById('speak-btn').disabled = false;
 
-            // Som m├ígico de revela├º├úo
+            // Som mágico de revelação
             playSound('reveal');
 
-            // Restaura bot├úo de processamento
+            // Restaura botão de processamento
             isProcessing = false;
             const btn = document.getElementById('process-btn');
             const icon = document.getElementById('process-icon');
@@ -2136,11 +2136,11 @@
         }
 
         // =========================================================================
-        // 5. S├ìNTESE DE VOZ E MURAL DA TURMA
+        // 5. SÍNTESE DE VOZ E MURAL DA TURMA
         // =========================================================================
         function speakText(textToRead) {
             if (!('speechSynthesis' in window)) {
-                showToast('Seu navegador n├úo suporta leitura em voz alta.', 'warn');
+                showToast('Seu navegador não suporta leitura em voz alta.', 'warn');
                 return;
             }
             window.speechSynthesis.cancel();
@@ -2165,7 +2165,7 @@
                 input.classList.remove('animate-input-error');
                 void input.offsetWidth;
                 input.classList.add('animate-input-error');
-                showToast('Olhe os cart├Áes sorteados e digite a frase antes de concluir!', 'warn');
+                showToast('Olhe os cartões sorteados e digite a frase antes de concluir!', 'warn');
                 input.focus();
                 return;
             }
@@ -2178,7 +2178,7 @@
             saveHistory();
             renderCompletedHistory();
             launchConfetti();
-            showToast('­ƒÄë Frase conclu├¡da e salva no Mural da Turma!', 'success');
+            showToast('🎉 Frase concluída e salva no Mural da Turma!', 'success');
         }
 
         function renderCompletedHistory() {
@@ -2193,16 +2193,16 @@
             wrapper.classList.add('visible');
             listEl.innerHTML = completedSentences.map((sentence, idx) => `
                 <li class="mural-item">
-                    <span>Ô¡É ${escapeHtml(sentence)}</span>
-                    <button class="btn-speak-mini" onclick="speakText(completedSentences[${idx}])" title="Ouvir frase">­ƒöè Ouvir</button>
+                    <span>⭐ ${escapeHtml(sentence)}</span>
+                    <button class="btn-speak-mini" onclick="speakText(completedSentences[${idx}])" title="Ouvir frase">🔊 Ouvir</button>
                 </li>
             `).join('');
         }
 
         function clearCompletedHistory() {
             openConfirmModal(
-                '­ƒùæ´©Å Limpar Mural da Turma',
-                'Deseja apagar todas as frases conclu├¡das do mural?',
+                '🗑️ Limpar Mural da Turma',
+                'Deseja apagar todas as frases concluídas do mural?',
                 () => {
                     completedSentences = [];
                     saveHistory();
@@ -2221,7 +2221,7 @@
                     <rect width="400" height="300" fill="${bgColor}" />
                     <rect x="16" y="16" width="368" height="268" rx="18" fill="#ffffff" stroke="#cbd5e1" stroke-width="4" stroke-dasharray="10 8" />
                     <circle cx="64" cy="62" r="22" fill="#fde047" />
-                    <text x="330" y="68" font-size="32" text-anchor="middle">Ôÿü´©Å</text>
+                    <text x="330" y="68" font-size="32" text-anchor="middle">☁️</text>
                     <text x="160" y="168" font-size="82" text-anchor="middle">${emojiMain}</text>
                     <text x="258" y="174" font-size="64" text-anchor="middle">${emojiSub}</text>
                     <rect x="36" y="214" width="328" height="46" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
@@ -2232,10 +2232,10 @@
         }
 
         const SAMPLE_DRAWINGS = [
-            { name: 'Exemplo 1 - O Cachorro no Sof├í', url: createSampleSVG('#dbeafe', '­ƒÉò', '­ƒøï´©Å', 'O cachorro pulou no sof├í!') },
-            { name: 'Exemplo 2 - O Rob├┤ no Parque', url: createSampleSVG('#fae8ff', '­ƒñû', '­ƒî│', 'O rob├┤ correu no parque!') },
-            { name: 'Exemplo 3 - O Sapo na Chuva', url: createSampleSVG('#d1fae5', '­ƒÉ©', '­ƒîº´©Å', 'O sapo pulou a po├ºa!') },
-            { name: 'Exemplo 4 - A Crian├ºa na Praia', url: createSampleSVG('#fef3c7', '­ƒºÆ', '­ƒìª', 'A crian├ºa tomou sorvete!') }
+            { name: 'Exemplo 1 - O Cachorro no Sofá', url: createSampleSVG('#dbeafe', '🐕', '🛋️', 'O cachorro pulou no sofá!') },
+            { name: 'Exemplo 2 - O Robô no Parque', url: createSampleSVG('#fae8ff', '🤖', '🌳', 'O robô correu no parque!') },
+            { name: 'Exemplo 3 - O Sapo na Chuva', url: createSampleSVG('#d1fae5', '🐸', '🌧️', 'O sapo pulou a poça!') },
+            { name: 'Exemplo 4 - A Criança na Praia', url: createSampleSVG('#fef3c7', '🧒', '🍦', 'A criança tomou sorvete!') }
         ];
 
         let galleryItems = [];
@@ -2335,11 +2335,11 @@
             const jsonUrls = await discoverFromJsonManifest();
             jsonUrls.forEach(u => candidates.add(u));
 
-            // 3. Live Server / diret├│rio HTTP
+            // 3. Live Server / diretório HTTP
             const dirUrls = await discoverFromDirectoryListing();
             dirUrls.forEach(u => candidates.add(u));
 
-            // 4. Varredura numerada 1..50 (funciona at├® em file:// direto)
+            // 4. Varredura numerada 1..50 (funciona até em file:// direto)
             const prefixes = ['', 'desenho', 'desenho_', 'desenho-', 'aluno', 'aluno_'];
             const exts = ['jpg', 'png', 'jpeg', 'webp'];
             for (let i = 1; i <= 50; i++) {
@@ -2460,11 +2460,11 @@
 
             if (galleryIsPlaying) {
                 btn.classList.remove('paused');
-                icon.textContent = 'ÔÅ©´©Å';
+                icon.textContent = '⏸️';
                 text.textContent = 'Pausar Loop';
             } else {
                 btn.classList.add('paused');
-                icon.textContent = 'ÔûÂ´©Å';
+                icon.textContent = '▶️';
                 text.textContent = 'Continuar';
             }
         }
@@ -2477,7 +2477,7 @@
         }
 
         // =========================================================================
-        // 7. UTILIT├üRIOS (TOAST, MODAIS, CONFETES OFFLINE, ESCAPE HTML)
+        // 7. UTILITÁRIOS (TOAST, MODAIS, CONFETES OFFLINE, ESCAPE HTML)
         // =========================================================================
         function escapeHtml(str) {
             return String(str)
@@ -2534,7 +2534,7 @@
             textarea.select();
             try {
                 document.execCommand('copy');
-                showToast('Comando copiado para a ├írea de transfer├¬ncia!', 'success');
+                showToast('Comando copiado para a área de transferência!', 'success');
             } catch (e) {
                 showToast('Selecione e copie o comando manualmente.', 'warn');
             }
@@ -2586,7 +2586,7 @@
         }
 
         // =========================================================================
-        // 8. INICIALIZA├ç├âO DA APLICA├ç├âO
+        // 8. INICIALIZAÇÃO DA APLICAÇÃO
         // =========================================================================
         function loadInitialState() {
             let saved = null;
