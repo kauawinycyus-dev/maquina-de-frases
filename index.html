@@ -2155,19 +2155,44 @@
             if (text) speakText(text);
         }
 
+        function normalizarTexto(txt) {
+            return txt
+                .toLowerCase()
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '') // ignora acentos e maiúsculas/minúsculas
+                .trim();
+        }
+
         function completeSentence() {
             const input = document.getElementById('final-sentence-input');
             const sentence = input.value.trim();
-            if (!sentence || sentence.length < 3) {
+
+            if (!lastDrawnResult || lastDrawnResult.length === 0) {
+                playSound('error');
+                showToast('Sorteie os cartões antes de concluir a frase!', 'warn');
+                return;
+            }
+
+            const fraseNorm = normalizarTexto(sentence);
+
+            // Verifica se a frase contém o conteúdo de todas as caixas sorteadas
+            const faltando = lastDrawnResult.filter(item => {
+                const palavraNorm = normalizarTexto(item.word);
+                return !fraseNorm.includes(palavraNorm);
+            });
+
+            if (faltando.length > 0) {
                 playSound('error');
                 input.classList.remove('animate-input-error');
                 void input.offsetWidth;
                 input.classList.add('animate-input-error');
-                showToast('Olhe os cartões sorteados e digite a frase antes de concluir!', 'warn');
+                const nomesFaltando = faltando.map(f => `"${f.word}"`).join(', ');
+                showToast(`Ops! Ainda falta usar na frase: ${nomesFaltando}`, 'warn');
                 input.focus();
                 return;
             }
 
+            // Validado! Comemora e salva no Mural
             input.classList.remove('animate-input-error');
             playSound('fanfare');
 
