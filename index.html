@@ -185,10 +185,12 @@
         }
 
         .splash-robot {
-            font-size: 4.5rem;
+            width: 240px; /* Ajuste o tamanho conforme preferir */
+            height: auto;
             display: inline-block;
             animation: floatRobot 2.6s ease-in-out infinite;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 8px 14px rgba(15, 23, 42, 0.15)); /* Sombra suave abaixo do PNG */
         }
 
         @keyframes floatRobot {
@@ -1012,6 +1014,58 @@
             color: #1e1b4b;
         }
 
+        /* =========================================================
+           CELEBRAÇÃO COM ROBÔ FLUTUANTE E BALÃO "MUITO BEM!"
+           ========================================================= */
+        .celebration-banner {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            background: linear-gradient(135deg, #fef9c3 0%, #dcfce7 100%);
+            border: 4px solid #22c55e;
+            border-radius: 24px;
+            padding: 16px 22px;
+            margin-top: 18px;
+            box-shadow: 0 10px 24px rgba(34, 197, 94, 0.2);
+            animation: popIn 0.35s ease-out;
+        }
+
+        .celebration-banner.visible {
+            display: flex;
+        }
+
+        .celebration-robot-img {
+            width: 95px;
+            height: auto;
+            animation: floatRobot 2.2s ease-in-out infinite;
+            filter: drop-shadow(0 6px 10px rgba(15, 23, 42, 0.16));
+            flex-shrink: 0;
+        }
+
+        .speech-bubble {
+            position: relative;
+            background: #ffffff;
+            border: 3px solid #16a34a;
+            border-radius: 20px;
+            padding: 12px 20px;
+            font-size: 1.45rem;
+            font-weight: 700;
+            color: #15803d;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .speech-bubble::before {
+            content: '';
+            position: absolute;
+            left: -14px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-width: 10px 14px 10px 0;
+            border-style: solid;
+            border-color: transparent #16a34a transparent transparent;
+        }
+
         @keyframes spinGear { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .spinning { display: inline-block; animation: spinGear 0.8s linear infinite; }
 
@@ -1097,7 +1151,7 @@
     <main id="view-splash" class="view-section active">
         <div class="splash-container">
             <div class="splash-card">
-                <div class="splash-robot">🤖</div>
+                <img src="robo.png" alt="Mascote Máquina de Frases" class="splash-robot">
                 <h1 class="rainbow-title">Máquina de Frases!</h1>
                 <p class="splash-desc">
                     Misture palavras, crie frases divertidas e aprenda como os computadores pensam!
@@ -1238,6 +1292,14 @@
                             <span>🎉</span>
                             <span>Validar Frase</span>
                         </button>
+                    </div>
+
+                    <!-- Robô flutuando comemorando o acerto -->
+                    <div id="celebration-banner" class="celebration-banner">
+                        <img src="robo.png" alt="Robô comemorando" class="celebration-robot-img">
+                        <div class="speech-bubble">
+                            🎉 Muito bem! Você conseguiu!
+                        </div>
                     </div>
 
                     <div id="completed-history-wrapper" class="mural-wrapper">
@@ -1805,7 +1867,12 @@
             lastDrawnResult = mode.boxes.map(box => {
                 const list = appData[mode.id][box.id];
                 const chosen = list[Math.floor(Math.random() * list.length)];
+                const inputFinal = document.getElementById('final-sentence-input');
+                inputFinal.value = '';
+                inputFinal.classList.remove('animate-input-error');
+                document.getElementById('celebration-banner').classList.remove('visible');
                 return { label: box.label, emoji: box.emoji, color: box.color, word: chosen };
+                //const inputFinal = document.getElementById('final-sentence-input');
             });
 
             isProcessing = false;
@@ -1872,6 +1939,7 @@
             saveHistory();
             renderCompletedHistory();
             launchConfetti();
+            document.getElementById('celebration-banner').classList.add('visible');
             showToast('🎉 Parabéns! Frase validada e salva no Mural!', 'success');
         }
 
