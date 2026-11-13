@@ -53,7 +53,7 @@
         }
 
         /* =========================================================
-           CABEÇALHO FIXO (COM HAMBÚRGUER E SONS)
+           CABEÇALHO FIXO
            ========================================================= */
         .app-header {
             background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 55%, #9333ea 100%);
@@ -182,7 +182,6 @@
             max-width: 680px;
             width: 100%;
             box-shadow: var(--shadow-lg);
-            position: relative;
         }
 
         .splash-robot {
@@ -236,7 +235,7 @@
         }
 
         /* =========================================================
-           TELA 1: SELECIONAR NÍVEL DE DIFICULDADE (IGUAL AO PRINT)
+           TELA 1: SELECIONAR NÍVEL DE DIFICULDADE
            ========================================================= */
         .level-select-wrapper {
             flex: 1;
@@ -319,9 +318,7 @@
             color: #0f172a;
         }
 
-        .level-card-btn.selected .level-card-title {
-            color: #ffffff;
-        }
+        .level-card-btn.selected .level-card-title { color: #ffffff; }
 
         .level-card-sub {
             font-size: 0.95rem;
@@ -330,9 +327,7 @@
             line-height: 1.35;
         }
 
-        .level-card-btn.selected .level-card-sub {
-            color: #dbeafe;
-        }
+        .level-card-btn.selected .level-card-sub { color: #dbeafe; }
 
         /* =========================================================
            TELA PRINCIPAL (3 ETAPAS: INPUT -> PROCESSAMENTO -> OUTPUT)
@@ -702,7 +697,7 @@
         }
 
         /* =========================================================
-           MENU HAMBÚRGUER (GALERIA DOS 59 DESENHOS)
+           MENU HAMBÚRGUER: GAVETA LATERAL DOS DESENHOS
            ========================================================= */
         .drawer-backdrop {
             position: fixed;
@@ -717,9 +712,9 @@
         .gallery-drawer {
             position: fixed;
             top: 0;
-            right: -420px;
+            right: -440px;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             height: 100vh;
             background: #ffffff;
             z-index: 950;
@@ -737,6 +732,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 8px;
         }
 
         .btn-close-drawer {
@@ -863,6 +859,157 @@
             font-family: inherit;
             font-weight: 700;
             outline: none;
+        }
+
+        .btn-expand-screen {
+            width: 100%;
+            background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 700;
+            padding: 14px 16px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+        }
+
+        .btn-expand-screen:hover {
+            background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+        }
+
+        /* =========================================================
+           TELA ESTENDIDA (TELA CHEIA GIGANTE PARA VER OS DESENHOS)
+           ========================================================= */
+        .fullscreen-gallery-overlay {
+            position: fixed;
+            inset: 0;
+            background: #0f172a;
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16px 20px;
+            color: #ffffff;
+        }
+
+        .fullscreen-gallery-overlay.open {
+            display: flex;
+            animation: fadeInScale 0.25s ease-out;
+        }
+
+        .fs-top-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .fs-title-pill {
+            background: rgba(255, 255, 255, 0.14);
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            padding: 8px 18px;
+            border-radius: 999px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-close-fs {
+            background: #ef4444;
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+        }
+
+        .fs-stage {
+            position: relative;
+            flex: 1;
+            min-height: 0;
+            margin: 14px 0;
+            background: #ffffff;
+            border: 5px solid #fcd34d;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .fs-stage img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .fs-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: rgba(15, 23, 42, 0.82);
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: 700;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+        }
+
+        .fs-nav-btn:hover {
+            background: #7c3aed;
+        }
+
+        .fs-prev { left: 16px; }
+        .fs-next { right: 16px; }
+
+        .fs-progress-track {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: rgba(226, 232, 240, 0.8);
+        }
+
+        .fs-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #7c3aed, #ec4899, #f59e0b);
+        }
+
+        .fs-bottom-bar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        .btn-fs-play {
+            background: #10b981;
+            color: #ffffff;
+            font-size: 1.05rem;
+            font-weight: 700;
+            padding: 12px 24px;
+            border-radius: 14px;
+        }
+
+        .btn-fs-play.paused {
+            background: #f59e0b;
+            color: #1e1b4b;
         }
 
         @keyframes spinGear { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
@@ -1157,8 +1304,57 @@
                     </select>
                 </div>
             </div>
+
+            <!-- Botão para estender a tela com os desenhos bem grandes -->
+            <button class="btn-expand-screen" onclick="openFullscreenGallery()">
+                <span>⛶</span>
+                <span>Estender Tela (Ver Desenhos Grandes)</span>
+            </button>
         </div>
     </aside>
+
+    <!-- ===========================================================
+         TELA ESTENDIDA: SOMENTE OS DESENHOS EM TAMANHO GIGANTE
+         =========================================================== -->
+    <div id="fullscreen-gallery" class="fullscreen-gallery-overlay" aria-label="Desenhos em Tela Cheia">
+        <div class="fs-top-bar">
+            <div class="fs-title-pill">
+                <span>🎨</span>
+                <span id="fs-caption">Desenho #1 da Turma</span>
+                <span id="fs-counter" style="background: #7c3aed; padding: 3px 12px; border-radius: 999px; font-size: 0.95rem;">1 / 59</span>
+            </div>
+
+            <button class="btn-close-fs" onclick="closeFullscreenGallery()">
+                <span>✕</span>
+                <span>Fechar Tela Estendida</span>
+            </button>
+        </div>
+
+        <div class="fs-stage">
+            <img id="fs-current-img" src="" alt="Desenho Ampliado">
+            <button class="fs-nav-btn fs-prev" onclick="prevSlide()" title="Anterior (Seta Esquerda)">◀</button>
+            <button class="fs-nav-btn fs-next" onclick="nextSlide()" title="Próximo (Seta Direita)">▶</button>
+            <div class="fs-progress-track">
+                <div id="fs-timer-bar" class="fs-progress-bar"></div>
+            </div>
+        </div>
+
+        <div class="fs-bottom-bar">
+            <button id="fs-play-btn" class="btn-fs-play" onclick="toggleGalleryPlay()">
+                ⏸️ Pausar Loop
+            </button>
+
+            <div class="speed-selector-box" style="color: #0f172a; padding: 10px 14px;">
+                <label for="fs-speed">⏱️ Tempo:</label>
+                <select id="fs-speed" onchange="changeGallerySpeedFromFS()">
+                    <option value="3000">3s</option>
+                    <option value="5000" selected>5s</option>
+                    <option value="8000">8s</option>
+                    <option value="12000">12s</option>
+                </select>
+            </div>
+        </div>
+    </div>
 
     <script>
         const PASTA_DESENHOS = 'desenhos/';
@@ -1638,7 +1834,7 @@
         }
 
         // =========================================================================
-        // VALIDAÇÃO DAS CAIXAS SORTEADAS + VOZ + RECOMPENSA DOS DESENHOS
+        // VALIDAÇÃO DAS CAIXAS SORTEADAS (SEM ABRIR GALERIA AUTOMATICAMENTE)
         // =========================================================================
         function normalizarTexto(txt) {
             return txt.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
@@ -1676,9 +1872,7 @@
             saveHistory();
             renderCompletedHistory();
             launchConfetti();
-            showToast('🎉 Parabéns! Frase validada! Veja os desenhos da turma!', 'success');
-
-            setTimeout(() => openGalleryDrawer(), 900);
+            showToast('🎉 Parabéns! Frase validada e salva no Mural!', 'success');
         }
 
         function speakText(textToRead) {
@@ -1719,7 +1913,7 @@
         }
 
         // =========================================================================
-        // MENU HAMBÚRGUER: GALERIA DOS 59 DESENHOS
+        // MENU HAMBÚRGUER & TELA ESTENDIDA: GALERIA DOS 59 DESENHOS
         // =========================================================================
         let galleryItems = [];
         let galleryIndex = 0;
@@ -1748,17 +1942,40 @@
             document.getElementById('gallery-drawer').classList.remove('open');
         }
 
+        function openFullscreenGallery() {
+            closeGalleryDrawer();
+            document.getElementById('fullscreen-gallery').classList.add('open');
+            updateGalleryUI();
+        }
+
+        function closeFullscreenGallery() {
+            document.getElementById('fullscreen-gallery').classList.remove('open');
+        }
+
         function updateGalleryUI() {
             if (galleryItems.length === 0) return;
             const item = galleryItems[galleryIndex];
+            const counterTxt = `${galleryIndex + 1} / ${galleryItems.length}`;
+
+            // Atualiza Gaveta Lateral
             const imgEl = document.getElementById('gallery-current-img');
             imgEl.src = item.url;
             imgEl.alt = item.name;
             document.getElementById('gallery-caption').textContent = item.name;
-            document.getElementById('gallery-counter').textContent = `${galleryIndex + 1} / ${galleryItems.length}`;
+            document.getElementById('gallery-counter').textContent = counterTxt;
+
+            // Atualiza Tela Estendida
+            const fsImgEl = document.getElementById('fs-current-img');
+            fsImgEl.src = item.url;
+            fsImgEl.alt = item.name;
+            document.getElementById('fs-caption').textContent = item.name;
+            document.getElementById('fs-counter').textContent = counterTxt;
+
             galleryElapsedMs = 0;
             const bar = document.getElementById('gallery-timer-bar');
+            const fsBar = document.getElementById('fs-timer-bar');
             if (bar) bar.style.width = '0%';
+            if (fsBar) fsBar.style.width = '0%';
         }
 
         function nextSlide() {
@@ -1782,7 +1999,9 @@
                 galleryElapsedMs += tick;
                 const pct = Math.min((galleryElapsedMs / galleryIntervalMs) * 100, 100);
                 const bar = document.getElementById('gallery-timer-bar');
+                const fsBar = document.getElementById('fs-timer-bar');
                 if (bar) bar.style.width = `${pct}%`;
+                if (fsBar) fsBar.style.width = `${pct}%`;
                 if (galleryElapsedMs >= galleryIntervalMs) nextSlide();
             }, tick);
         }
@@ -1808,22 +2027,51 @@
             const btn = document.getElementById('gallery-play-btn');
             const icon = document.getElementById('gallery-play-icon');
             const text = document.getElementById('gallery-play-text');
+            const fsBtn = document.getElementById('fs-play-btn');
+
             if (galleryIsPlaying) {
                 btn.classList.remove('paused');
                 icon.textContent = '⏸️';
                 text.textContent = 'Pausar Loop';
+                if (fsBtn) {
+                    fsBtn.classList.remove('paused');
+                    fsBtn.textContent = '⏸️ Pausar Loop';
+                }
             } else {
                 btn.classList.add('paused');
                 icon.textContent = '▶️';
                 text.textContent = 'Continuar';
+                if (fsBtn) {
+                    fsBtn.classList.add('paused');
+                    fsBtn.textContent = '▶️ Continuar';
+                }
             }
         }
 
         function changeGallerySpeed() {
-            galleryIntervalMs = parseInt(document.getElementById('gallery-speed').value, 10) || 5000;
+            const val = parseInt(document.getElementById('gallery-speed').value, 10) || 5000;
+            galleryIntervalMs = val;
+            document.getElementById('fs-speed').value = String(val);
             galleryElapsedMs = 0;
             if (galleryIsPlaying) startGalleryLoop();
         }
+
+        function changeGallerySpeedFromFS() {
+            const val = parseInt(document.getElementById('fs-speed').value, 10) || 5000;
+            galleryIntervalMs = val;
+            document.getElementById('gallery-speed').value = String(val);
+            galleryElapsedMs = 0;
+            if (galleryIsPlaying) startGalleryLoop();
+        }
+
+        // Atalhos de teclado quando a Tela Estendida estiver aberta
+        document.addEventListener('keydown', (e) => {
+            const fsOpen = document.getElementById('fullscreen-gallery').classList.contains('open');
+            if (!fsOpen) return;
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'Escape') closeFullscreenGallery();
+        });
 
         function escapeHtml(str) {
             return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
