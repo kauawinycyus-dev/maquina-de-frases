@@ -4,6 +4,7 @@ Uma aplicação web educativa e interativa desenvolvida para introduzir conceito
 
 > 🎓 **Projeto de Extensão Universitária — UFLA**  
 > Este projeto foi desenvolvido como parte de um **Projeto de Extensão Universitária da Universidade Federal de Lavras (UFLA)**, com o objetivo de levar noções de lógica de programação, algoritmos e tecnologia para o ambiente escolar de maneira divertida e inclusiva.
+> Disponível em: https://maquina-de-frases-ruby.vercel.app/
 
 ---
 
