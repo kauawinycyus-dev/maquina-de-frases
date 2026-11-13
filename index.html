@@ -1,61 +1,43 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Máquina de Frases: Input, Processamento e Output</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Máquina de Frases! - Pensamento Computacional</title>
     <style>
-        /* =========================================================
-           1. RESET E ESTILOS GERAIS (100% CSS PURO OFFLINE-READY)
-           ========================================================= */
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');
+
+        :root {
+            --bg-page: #f0f9ff;
+            --purple-dark: #4c1d95;
+            --purple-main: #7c3aed;
+            --blue-primary: #2563eb;
+            --amber-primary: #f59e0b;
+            --emerald-primary: #10b981;
+            --text-dark: #0f172a;
+            --shadow-md: 0 8px 20px rgba(15, 23, 42, 0.08);
+            --shadow-lg: 0 14px 32px rgba(15, 23, 42, 0.16);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
-        :root {
-            --bg-page: #f0f6ff;
-            --bg-card: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --blue-primary: #2563eb;
-            --blue-dark: #1d4ed8;
-            --blue-light: #eff6ff;
-            --blue-border: #93c5fd;
-            --amber-primary: #f59e0b;
-            --amber-dark: #d97706;
-            --amber-light: #fffbeb;
-            --amber-border: #fcd34d;
-            --emerald-primary: #10b981;
-            --emerald-dark: #059669;
-            --emerald-light: #ecfdf5;
-            --emerald-border: #6ee7b7;
-            --purple-primary: #7c3aed;
-            --purple-dark: #5b21b6;
-            --purple-light: #f5f3ff;
-            --purple-border: #c4b5fd;
-            --rose-primary: #e11d48;
-            --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.06);
-            --shadow-md: 0 6px 18px rgba(15, 23, 42, 0.08);
-            --shadow-lg: 0 12px 28px rgba(15, 23, 42, 0.12);
-        }
-
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-page);
-            background-image: radial-gradient(#cbd5e1 1.2px, transparent 1.2px);
+            font-family: 'Fredoka', sans-serif;
+            background-color: #f4f7fb;
+            background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
             background-size: 24px 24px;
-            color: var(--text-main);
-            line-height: 1.5;
-            padding-bottom: 48px;
-        }
-
-        button, input, select {
-            font-family: inherit;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         button {
+            font-family: inherit;
             cursor: pointer;
             border: none;
             transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease;
@@ -71,152 +53,291 @@
         }
 
         /* =========================================================
-           2. CABEÇALHO SUPERIOR
+           CABEÇALHO FIXO (COM HAMBÚRGUER E SONS)
            ========================================================= */
         .app-header {
-            background: linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%);
+            background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 55%, #9333ea 100%);
             color: #ffffff;
-            border-bottom: 4px solid #312e81;
-            box-shadow: var(--shadow-md);
-            padding: 18px 20px;
+            padding: 12px 20px;
+            box-shadow: 0 4px 16px rgba(76, 29, 149, 0.28);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
         .header-inner {
-            max-width: 1440px;
+            max-width: 1120px;
             margin: 0 auto;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            gap: 16px;
+            gap: 10px;
         }
 
         .header-brand {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 10px;
+            cursor: pointer;
         }
 
         .brand-icon {
-            font-size: 2.2rem;
-            background: rgba(255, 255, 255, 0.18);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 16px;
-            width: 56px;
-            height: 56px;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.35);
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
+            font-size: 1.5rem;
         }
 
         .header-brand h1 {
-            font-size: 1.65rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            line-height: 1.2;
+            font-size: 1.35rem;
+            font-weight: 700;
         }
 
-        .header-subtitle {
-            font-size: 0.9rem;
-            color: #e0e7ff;
-            margin-top: 4px;
+        .header-actions {
             display: flex;
+            align-items: center;
+            gap: 8px;
             flex-wrap: wrap;
+        }
+
+        .btn-header {
+            background: rgba(255, 255, 255, 0.16);
+            color: #ffffff;
+            border: 2px solid rgba(255, 255, 255, 0.32);
+            padding: 8px 13px;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            display: inline-flex;
             align-items: center;
             gap: 6px;
         }
 
-        .pill-badge {
-            padding: 2px 8px;
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 0.8rem;
+        .btn-sound.active {
+            background: #10b981;
+            border-color: #6ee7b7;
         }
-        .pill-in { background: rgba(30, 58, 138, 0.7); color: #bae6fd; }
-        .pill-proc { background: rgba(88, 28, 135, 0.7); color: #fde68a; }
-        .pill-out { background: rgba(6, 78, 59, 0.7); color: #a7f3d0; }
 
-        .btn-reset-header {
-            background: rgba(255, 255, 255, 0.16);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.32);
-            padding: 10px 16px;
+        .btn-hamburger {
+            background: #f59e0b;
+            color: #1e1b4b;
+            border: 2px solid #fde68a;
+            font-weight: 700;
+            padding: 8px 14px;
             border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.88rem;
+            font-size: 0.9rem;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        .btn-reset-header:hover {
-            background: rgba(255, 255, 255, 0.28);
+            gap: 7px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         /* =========================================================
-           3. CONTAINER PRINCIPAL LADO A LADO (MAIN + SIDEBAR)
+           CONTROLE DE TELAS PRINCIPAIS
            ========================================================= */
-        .workspace-layout {
-            display: flex;
-            align-items: flex-start;
-            gap: 24px;
-            max-width: 1440px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .main-area {
+        .view-section {
+            display: none;
             flex: 1;
-            min-width: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
+            width: 100%;
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 20px 16px 40px;
+            animation: fadeInScale 0.35s ease-out;
         }
 
-        /* SIDEBAR FIXA E CONTIDA À DIREITA */
-        .gallery-sidebar {
-            width: 340px;
-            flex-shrink: 0;
-            position: sticky;
-            top: 20px;
-            max-height: calc(100vh - 40px);
-            overflow: hidden;
+        .view-section.active {
             display: flex;
             flex-direction: column;
-            background: var(--bg-card);
-            border: 3px solid var(--purple-border);
-            border-radius: 22px;
-            box-shadow: var(--shadow-lg);
         }
 
-        /* Responsivo para telas menores que 960px */
-        @media (max-width: 960px) {
-            .workspace-layout {
-                flex-direction: column;
-            }
-            .main-area {
-                width: 100%;
-            }
-            .gallery-sidebar {
-                width: 100%;
-                position: static;
-                max-height: none;
-            }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: translateY(12px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         /* =========================================================
-           4. SELETOR DE MODOS / NÍVEIS
+           TELA 0: CAPA INICIAL CHAMATIVA
            ========================================================= */
-        .card-panel {
-            background: var(--bg-card);
-            border-radius: 22px;
-            padding: 20px;
-            box-shadow: var(--shadow-md);
-            border: 2px solid #e2e8f0;
+        .splash-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 24px 16px;
         }
 
-        .mode-header {
+        .splash-card {
+            background: #ffffff;
+            border: 5px solid #c4b5fd;
+            border-radius: 36px;
+            padding: 44px 28px;
+            max-width: 680px;
+            width: 100%;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+        }
+
+        .splash-robot {
+            font-size: 4.5rem;
+            display: inline-block;
+            animation: floatRobot 2.6s ease-in-out infinite;
+            margin-bottom: 10px;
+        }
+
+        @keyframes floatRobot {
+            0%, 100% { transform: translateY(0) rotate(-3deg); }
+            50% { transform: translateY(-10px) rotate(3deg); }
+        }
+
+        .rainbow-title {
+            font-size: clamp(2.5rem, 6vw, 4.1rem);
+            font-weight: 700;
+            line-height: 1.08;
+            background: linear-gradient(90deg, #ef4444, #f59e0b, #10b981, #2563eb, #9333ea);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 3px 0 rgba(15, 23, 42, 0.08));
+            margin-bottom: 14px;
+        }
+
+        .splash-desc {
+            font-size: 1.2rem;
+            color: #475569;
+            font-weight: 600;
+            margin-bottom: 32px;
+        }
+
+        .btn-start-hero {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: #ffffff;
+            font-size: 1.7rem;
+            font-weight: 700;
+            padding: 20px 52px;
+            border-radius: 26px;
+            border: 4px solid #a7f3d0;
+            box-shadow: 0 12px 26px rgba(16, 185, 129, 0.38);
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .btn-start-hero:hover {
+            background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        /* =========================================================
+           TELA 1: SELECIONAR NÍVEL DE DIFICULDADE (IGUAL AO PRINT)
+           ========================================================= */
+        .level-select-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .level-panel {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 28px 24px;
+            box-shadow: var(--shadow-lg);
+            border: 3px solid #e2e8f0;
+        }
+
+        .level-panel-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        .level-panel-title {
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .level-preview-pill {
+            background: #eef2ff;
+            color: #4338ca;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 8px 16px;
+            border-radius: 999px;
+        }
+
+        .level-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .level-card-btn {
+            background: #ffffff;
+            border: 3px solid #e2e8f0;
+            border-radius: 22px;
+            padding: 22px 20px;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 8px;
+            min-height: 118px;
+            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.03);
+        }
+
+        .level-card-btn:hover {
+            border-color: #3b82f6;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 22px rgba(37, 99, 235, 0.14);
+        }
+
+        .level-card-btn.selected {
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+            border-color: #1d4ed8;
+            color: #ffffff;
+            box-shadow: 0 10px 24px rgba(37, 99, 235, 0.32);
+        }
+
+        .level-card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .level-card-btn.selected .level-card-title {
+            color: #ffffff;
+        }
+
+        .level-card-sub {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #475569;
+            line-height: 1.35;
+        }
+
+        .level-card-btn.selected .level-card-sub {
+            color: #dbeafe;
+        }
+
+        /* =========================================================
+           TELA PRINCIPAL (3 ETAPAS: INPUT -> PROCESSAMENTO -> OUTPUT)
+           ========================================================= */
+        .top-context-bar {
             display: flex;
             flex-wrap: wrap;
             align-items: center;
@@ -225,136 +346,97 @@
             margin-bottom: 14px;
         }
 
-        .mode-label {
-            font-size: 0.82rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
-        }
-
-        .mode-desc-badge {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #4338ca;
-            background: #eef2ff;
-            padding: 4px 12px;
+        .active-level-badge {
+            background: #ede9fe;
+            color: #5b21b6;
+            border: 2px solid #c4b5fd;
+            padding: 7px 14px;
             border-radius: 999px;
-        }
-
-        .mode-tabs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
-            gap: 10px;
-        }
-
-        .mode-btn {
-            text-align: left;
-            padding: 12px 14px;
-            border-radius: 14px;
-            border: 2px solid #e2e8f0;
-            background: #f8fafc;
-            color: var(--text-main);
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .mode-btn:hover {
-            border-color: #93c5fd;
-            background: #eff6ff;
-        }
-
-        .mode-btn.active {
-            background: linear-gradient(135deg, #2563eb, #4f46e5);
-            color: #ffffff;
-            border-color: #1d4ed8;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.28);
-        }
-
-        .mode-btn-title {
             font-weight: 700;
             font-size: 0.95rem;
         }
 
-        .mode-btn-sub {
-            font-size: 0.78rem;
-            opacity: 0.85;
+        .btn-change-level {
+            background: #ffffff;
+            color: #1d4ed8;
+            border: 2px solid #93c5fd;
+            padding: 7px 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9rem;
         }
 
-        /* =========================================================
-           5. ETAPA 1: INPUT (CAIXAS DE DADOS)
-           ========================================================= */
-        .section-input {
-            background: var(--blue-light);
-            border: 3px solid var(--blue-border);
-            border-radius: 22px;
-            padding: 22px;
+        .stepper-track {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 10px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
             box-shadow: var(--shadow-md);
-        }
-
-        .section-title-row {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
+            border: 2px solid #e2e8f0;
             margin-bottom: 18px;
         }
 
-        .section-title-left {
+        .step-tab {
+            background: #f8fafc;
+            color: #64748b;
+            border: 2px solid transparent;
+            border-radius: 14px;
+            padding: 12px 10px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            font-size: 1rem;
+            font-weight: 700;
         }
 
-        .step-badge {
-            color: #ffffff;
-            font-weight: 800;
-            font-size: 0.95rem;
-            padding: 6px 14px;
-            border-radius: 12px;
+        .step-tab .step-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            color: #475569;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            justify-content: center;
+            font-size: 0.9rem;
         }
 
-        .step-badge-blue { background: var(--blue-primary); }
-        .step-badge-amber { background: var(--amber-primary); }
-        .step-badge-emerald { background: var(--emerald-dark); }
+        .step-tab.active[data-step="1"] { background: #eff6ff; border-color: #3b82f6; color: #1d4ed8; }
+        .step-tab.active[data-step="1"] .step-num { background: #2563eb; color: #ffffff; }
+        .step-tab.active[data-step="2"] { background: #fffbeb; border-color: #f59e0b; color: #b45309; }
+        .step-tab.active[data-step="2"] .step-num { background: #f59e0b; color: #ffffff; }
+        .step-tab.active[data-step="3"] { background: #ecfdf5; border-color: #10b981; color: #047857; }
+        .step-tab.active[data-step="3"] .step-num { background: #10b981; color: #ffffff; }
 
-        .section-title-left h2 {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #0f172a;
-        }
+        .sub-screen { display: none; animation: fadeInScale 0.28s ease-out; }
+        .sub-screen.active { display: block; }
 
-        .hint-pill {
-            font-size: 0.84rem;
-            color: #1e40af;
-            background: #dbeafe;
-            padding: 6px 12px;
-            border-radius: 10px;
-            font-weight: 500;
+        .panel-card {
+            background: #ffffff;
+            border-radius: 26px;
+            padding: 22px;
+            box-shadow: var(--shadow-md);
+            border: 3px solid #e2e8f0;
         }
 
         .boxes-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 16px;
+            margin-top: 16px;
         }
 
         .data-box {
             background: #ffffff;
-            border: 2px solid #cbd5e1;
-            border-top: 6px solid var(--box-accent, #3b82f6);
-            border-radius: 18px;
-            padding: 14px;
+            border: 4px solid var(--box-accent, #3b82f6);
+            border-radius: 22px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            box-shadow: var(--shadow-sm);
+            gap: 12px;
         }
 
         .box-header {
@@ -368,609 +450,357 @@
             display: flex;
             align-items: center;
             gap: 8px;
-        }
-
-        .box-emoji {
-            font-size: 1.35rem;
-        }
-
-        .box-title {
-            font-weight: 800;
-            font-size: 1.02rem;
-            color: #1e293b;
-        }
-
-        .box-count-row {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .box-count {
-            font-size: 0.75rem;
+            font-size: 1.15rem;
             font-weight: 700;
-            background: #f1f5f9;
-            color: #475569;
-            padding: 2px 8px;
-            border-radius: 999px;
         }
 
         .btn-clear-box {
             background: #fee2e2;
             color: #b91c1c;
-            font-size: 0.72rem;
+            font-size: 0.78rem;
             font-weight: 700;
-            padding: 3px 7px;
-            border-radius: 6px;
-        }
-
-        .btn-clear-box:hover {
-            background: #fecaca;
+            padding: 4px 10px;
+            border-radius: 10px;
         }
 
         .box-input-group {
             display: flex;
-            gap: 6px;
+            gap: 8px;
         }
 
         .box-input {
             flex: 1;
             min-width: 0;
-            padding: 8px 11px;
             border: 2px solid #cbd5e1;
-            border-radius: 10px;
-            font-size: 0.9rem;
+            border-radius: 12px;
+            padding: 10px 12px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
             outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .box-input:focus {
-            border-color: var(--blue-primary);
         }
 
         .btn-add-word {
-            background: var(--blue-primary);
+            background: var(--box-accent, #3b82f6);
             color: #ffffff;
-            font-weight: 800;
-            font-size: 1.1rem;
-            width: 38px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-size: 1.35rem;
+            font-weight: 700;
+            width: 44px;
+            border-radius: 12px;
             flex-shrink: 0;
-        }
-
-        .btn-add-word:hover {
-            background: var(--blue-dark);
         }
 
         .words-list {
             list-style: none;
-            max-height: 185px;
-            overflow-y: auto;
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
-            padding-right: 4px;
-            align-content: flex-start;
-        }
-
-        .words-list::-webkit-scrollbar {
-            width: 5px;
-        }
-        .words-list::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 8px;
+            gap: 8px;
+            min-height: 42px;
         }
 
         .word-chip {
-            background: #f8fafc;
-            border: 1px solid #cbd5e1;
-            color: #1e293b;
-            font-size: 0.85rem;
+            background: #f1f5f9;
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 6px 10px;
+            font-size: 0.95rem;
             font-weight: 600;
-            padding: 4px 8px 4px 10px;
-            border-radius: 999px;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
 
         .btn-remove-word {
             background: #e2e8f0;
             color: #475569;
-            width: 18px;
-            height: 18px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
-            font-size: 0.7rem;
-            font-weight: 800;
-            display: inline-flex;
+            font-weight: 700;
+        }
+
+        .screen-footer-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            line-height: 1;
+            gap: 12px;
+            margin-top: 22px;
         }
 
-        .btn-remove-word:hover {
-            background: #ef4444;
+        .btn-nav-primary {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
             color: #ffffff;
-        }
-
-        .empty-box-msg {
-            font-size: 0.82rem;
-            color: #94a3b8;
-            font-style: italic;
-            padding: 8px 0;
-        }
-
-        /* =========================================================
-           6. ETAPA 2: PROCESSAMENTO (BOTÃO DE SORTEIO)
-           ========================================================= */
-        .section-process {
-            background: linear-gradient(180deg, #fffbeb 0%, #fef3c7 100%);
-            border: 3px solid var(--amber-border);
-            border-radius: 22px;
-            padding: 24px;
-            text-align: center;
-            box-shadow: var(--shadow-md);
-        }
-
-        .section-process h2 {
-            font-size: 1.35rem;
-            font-weight: 800;
-            color: #78350f;
-            margin: 10px 0 6px;
-        }
-
-        .section-process p {
-            font-size: 0.94rem;
-            color: #92400e;
-            margin-bottom: 18px;
-        }
-
-        .btn-process {
-            background: linear-gradient(135deg, #f97316 0%, #f59e0b 100%);
-            color: #ffffff;
-            font-size: 1.18rem;
-            font-weight: 800;
-            padding: 16px 32px;
-            border-radius: 16px;
-            border-bottom: 4px solid #c2410c;
-            box-shadow: 0 8px 20px rgba(249, 115, 22, 0.32);
+            font-size: 1.2rem;
+            font-weight: 700;
+            padding: 16px 28px;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
             display: inline-flex;
             align-items: center;
             gap: 10px;
+            margin-left: auto;
         }
 
-        .btn-process:hover:not(:disabled) {
-            background: linear-gradient(135deg, #ea580c 0%, #d97706 100%);
-        }
-
-        .progress-wrapper {
-            max-width: 420px;
-            margin: 16px auto 0;
-            display: none;
-        }
-
-        .progress-wrapper.visible {
-            display: block;
-        }
-
-        .progress-label {
-            font-size: 0.88rem;
+        .btn-nav-secondary {
+            background: #e2e8f0;
+            color: #334155;
+            font-size: 1.05rem;
             font-weight: 700;
-            color: #9a3412;
-            margin-bottom: 6px;
-        }
-
-        .progress-track {
-            width: 100%;
-            height: 10px;
-            background: #fde68a;
-            border-radius: 999px;
-            overflow: hidden;
-            border: 1px solid #f59e0b;
-        }
-
-        .progress-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #f97316, #7c3aed);
-            transition: width 0.08s linear;
-        }
-
-        /* =========================================================
-           7. ETAPA 3: OUTPUT (RESULTADO, VOZ E DESAFIO)
-           ========================================================= */
-        .section-output {
-            background: var(--emerald-light);
-            border: 3px solid var(--emerald-border);
-            border-radius: 22px;
-            padding: 22px;
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-speak {
-            background: #0d9488;
-            color: #ffffff;
-            font-weight: 700;
-            font-size: 0.9rem;
-            padding: 10px 16px;
-            border-radius: 12px;
+            padding: 14px 22px;
+            border-radius: 16px;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            box-shadow: var(--shadow-sm);
         }
 
-        .btn-speak:hover:not(:disabled) {
-            background: #0f766e;
+        /* PROCESSAMENTO */
+        .process-stage-card {
+            background: linear-gradient(180deg, #fffbeb 0%, #ffffff 100%);
+            border: 4px solid #f59e0b;
+            border-radius: 28px;
+            padding: 36px 24px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
         }
 
-        .output-cards-stage {
-            min-height: 125px;
-            background: #ffffff;
-            border: 2px dashed #6ee7b7;
-            border-radius: 16px;
-            padding: 20px;
+        .btn-process-big {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #ffffff;
+            font-size: 1.45rem;
+            font-weight: 700;
+            padding: 22px 38px;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(217, 119, 6, 0.38);
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .roulette-preview-grid {
             display: flex;
             flex-wrap: wrap;
-            align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 14px;
+            margin-top: 26px;
         }
 
-        .output-placeholder {
-            text-align: center;
-            color: #94a3b8;
-            font-size: 0.96rem;
+        .roulette-pill {
+            background: #ffffff;
+            border: 3px solid var(--pill-color, #f59e0b);
+            border-radius: 18px;
+            padding: 14px 20px;
+            min-width: 170px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .progress-track {
+            max-width: 480px;
+            height: 14px;
+            background: #fde68a;
+            border-radius: 999px;
+            margin: 22px auto 0;
+            overflow: hidden;
+            display: none;
+        }
+        .progress-track.visible { display: block; }
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #f59e0b, #7c3aed, #10b981);
+        }
+
+        /* OUTPUT */
+        .output-cards-stage {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+            margin: 18px 0 24px;
         }
 
         .result-card {
-            background: #f8fafc;
-            border: 2px solid #cbd5e1;
-            border-bottom: 4px solid var(--card-color, #10b981);
-            border-radius: 14px;
-            padding: 10px 16px;
+            background: #ffffff;
+            border: 4px solid var(--card-color, #10b981);
+            border-radius: 22px;
+            padding: 18px 24px;
+            min-width: 190px;
             text-align: center;
-            min-width: 120px;
-            animation: popIn 0.38s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-
-        .result-card-cat {
-            font-size: 0.72rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            color: var(--text-muted);
-            display: block;
-            margin-bottom: 3px;
-        }
-
-        .result-card-word {
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: #0f172a;
+            box-shadow: var(--shadow-md);
         }
 
         .challenge-panel {
-            margin-top: 18px;
-            background: #ffffff;
-            border: 2px solid #a7f3d0;
-            border-radius: 16px;
-            padding: 18px;
-            display: none;
-        }
-
-        .challenge-panel.visible {
-            display: block;
-        }
-
-        .challenge-top {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-
-        .challenge-top h3 {
-            font-size: 1.08rem;
-            font-weight: 800;
-            color: #065f46;
-        }
-
-        .debug-badge {
-            font-size: 0.72rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            background: #fef3c7;
-            color: #92400e;
-            padding: 4px 10px;
-            border-radius: 999px;
-        }
-
-        .challenge-desc {
-            font-size: 0.88rem;
-            color: #475569;
-            margin-bottom: 12px;
+            background: #ecfdf5;
+            border: 3px solid #6ee7b7;
+            border-radius: 22px;
+            padding: 20px;
         }
 
         .challenge-form {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
+            margin-top: 12px;
         }
 
         .final-input {
             flex: 1;
-            min-width: 220px;
-            padding: 12px 14px;
-            font-size: 1.05rem;
+            min-width: 240px;
+            border: 3px solid #10b981;
+            border-radius: 16px;
+            padding: 14px 16px;
+            font-family: inherit;
+            font-size: 1.2rem;
             font-weight: 600;
-            border: 2px solid #cbd5e1;
-            border-radius: 12px;
+            background: #ffffff;
             outline: none;
         }
 
-        .final-input:focus {
-            border-color: var(--emerald-primary);
-        }
-
         .btn-complete {
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: #10b981;
             color: #ffffff;
-            font-weight: 800;
-            font-size: 1rem;
-            padding: 12px 22px;
-            border-radius: 12px;
-            border-bottom: 4px solid #065f46;
+            font-size: 1.15rem;
+            font-weight: 700;
+            padding: 14px 24px;
+            border-radius: 16px;
             display: inline-flex;
             align-items: center;
             gap: 8px;
         }
 
-        .btn-complete:hover {
-            background: linear-gradient(135deg, #059669, #047857);
+        .btn-speak {
+            background: #7c3aed;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 700;
+            padding: 10px 18px;
+            border-radius: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .mural-wrapper {
-            margin-top: 18px;
-            padding-top: 14px;
-            border-top: 1px solid #e2e8f0;
+            margin-top: 20px;
+            background: #ffffff;
+            border: 3px solid #c4b5fd;
+            border-radius: 20px;
+            padding: 16px;
             display: none;
         }
-
-        .mural-wrapper.visible {
-            display: block;
-        }
-
-        .mural-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .mural-header h4 {
-            font-size: 0.85rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            color: var(--text-muted);
-        }
-
-        .btn-clear-mural {
-            background: transparent;
-            color: var(--rose-primary);
-            font-size: 0.78rem;
-            font-weight: 700;
-            text-decoration: underline;
-        }
-
-        .mural-list {
-            list-style: none;
-            max-height: 170px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
+        .mural-wrapper.visible { display: block; }
+        .mural-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
         .mural-item {
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
-            border-radius: 10px;
-            padding: 8px 12px;
+            background: #f5f3ff;
+            border-radius: 12px;
+            padding: 10px 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 10px;
-            font-size: 0.94rem;
             font-weight: 600;
-            color: #14532d;
-        }
-
-        .btn-speak-mini {
-            background: #dcfce7;
-            color: #166534;
-            padding: 4px 8px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            flex-shrink: 0;
         }
 
         /* =========================================================
-           8. SIDEBAR: GALERIA DA TURMA (ESTILOS RÍGIDOS E CONTIDOS)
+           MENU HAMBÚRGUER (GALERIA DOS 59 DESENHOS)
            ========================================================= */
-        .sidebar-header {
-            background: linear-gradient(135deg, #7c3aed 0%, #c026d3 60%, #db2777 100%);
+        .drawer-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.55);
+            z-index: 900;
+            display: none;
+            backdrop-filter: blur(2px);
+        }
+        .drawer-backdrop.open { display: block; }
+
+        .gallery-drawer {
+            position: fixed;
+            top: 0;
+            right: -420px;
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            background: #ffffff;
+            z-index: 950;
+            box-shadow: -8px 0 30px rgba(15, 23, 42, 0.25);
+            display: flex;
+            flex-direction: column;
+            transition: right 0.3s ease;
+        }
+        .gallery-drawer.open { right: 0; }
+
+        .drawer-header {
+            background: linear-gradient(135deg, #7c3aed 0%, #db2777 100%);
             color: #ffffff;
-            padding: 14px 16px;
+            padding: 16px 18px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
-            flex-shrink: 0;
         }
 
-        .sidebar-title-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            min-width: 0;
-        }
-
-        .sidebar-icon {
-            font-size: 1.35rem;
-            background: rgba(255, 255, 255, 0.2);
+        .btn-close-drawer {
+            background: rgba(255, 255, 255, 0.22);
+            color: #ffffff;
             width: 36px;
             height: 36px;
             border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .sidebar-title-group h2 {
-            font-size: 1.05rem;
-            font-weight: 800;
-            line-height: 1.2;
-        }
-
-        .sidebar-title-group p {
-            font-size: 0.74rem;
-            color: #f3e8ff;
-        }
-
-        .sidebar-badge {
-            background: rgba(255, 255, 255, 0.22);
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            font-size: 0.72rem;
+            font-size: 1.2rem;
             font-weight: 700;
-            padding: 3px 9px;
-            border-radius: 999px;
-            white-space: nowrap;
-            flex-shrink: 0;
         }
 
-        .sidebar-status-bar {
-            background: var(--purple-light);
-            border-bottom: 1px solid #e9d5ff;
-            padding: 8px 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            flex-shrink: 0;
-        }
-
-        .sidebar-status-text {
-            font-size: 0.74rem;
-            font-weight: 600;
-            color: #581c87;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            min-width: 0;
-        }
-
-        .sidebar-status-text code {
-            background: #e9d5ff;
-            padding: 1px 5px;
-            border-radius: 4px;
-            font-family: monospace;
-        }
-
-        .sidebar-mini-actions {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            flex-shrink: 0;
-        }
-
-        .btn-sidebar-mini {
-            background: #ffffff;
-            color: #6b21a8;
-            border: 1px solid #d8b4fe;
-            font-size: 0.74rem;
-            font-weight: 800;
-            padding: 4px 8px;
-            border-radius: 8px;
-        }
-
-        .btn-sidebar-mini:hover {
-            background: #f3e8ff;
-        }
-
-        .sidebar-body {
-            padding: 14px;
+        .drawer-body {
+            padding: 18px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
             overflow-y: auto;
+            flex: 1;
         }
 
-        /* MOLDURA DA IMAGEM COM PROPORÇÃO RÍGIDA */
         .gallery-frame {
             position: relative;
             width: 100%;
             aspect-ratio: 4 / 3;
-            max-height: 240px;
             background: #0f172a;
-            border: 3px solid #fcd34d;
-            border-radius: 16px;
+            border: 4px solid #fcd34d;
+            border-radius: 18px;
             overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
         }
 
         .gallery-frame img {
             width: 100%;
             height: 100%;
-            max-height: 240px;
             object-fit: contain;
             background: #ffffff;
-            display: block;
         }
 
         .gallery-nav-btn {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 32px;
-            height: 32px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
-            background: rgba(15, 23, 42, 0.72);
+            background: rgba(15, 23, 42, 0.78);
             color: #ffffff;
-            font-size: 0.85rem;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            font-weight: 700;
         }
-
-        .gallery-nav-btn:hover {
-            background: rgba(15, 23, 42, 0.95);
-        }
-
-        .gallery-prev { left: 8px; }
-        .gallery-next { right: 8px; }
+        .gallery-prev { left: 10px; }
+        .gallery-next { right: 10px; }
 
         .gallery-counter-pill {
             position: absolute;
-            top: 8px;
-            right: 8px;
-            background: rgba(15, 23, 42, 0.78);
+            top: 10px;
+            right: 10px;
+            background: rgba(15, 23, 42, 0.82);
             color: #ffffff;
-            font-size: 0.72rem;
+            font-size: 0.8rem;
             font-weight: 700;
-            padding: 3px 9px;
+            padding: 4px 10px;
             border-radius: 999px;
         }
 
@@ -979,7 +809,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 5px;
+            height: 6px;
             background: rgba(226, 232, 240, 0.6);
         }
 
@@ -987,128 +817,73 @@
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, #7c3aed, #ec4899, #f59e0b);
-            transition: width 0.1s linear;
         }
 
         .gallery-caption-box {
             background: #fffbeb;
             border: 2px solid #fde68a;
             border-radius: 14px;
-            padding: 10px 12px;
+            padding: 12px;
             text-align: center;
-        }
-
-        .gallery-caption-label {
-            display: block;
-            font-size: 0.66rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: #b45309;
-            margin-bottom: 2px;
-        }
-
-        .gallery-caption-title {
-            font-size: 0.96rem;
-            font-weight: 800;
-            color: #1e293b;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: #92400e;
         }
 
         .gallery-controls-row {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            padding-top: 8px;
-            border-top: 1px solid #e2e8f0;
+            gap: 10px;
         }
 
         .btn-gallery-toggle {
             flex: 1;
-            background: #059669;
+            background: #10b981;
             color: #ffffff;
             font-weight: 700;
-            font-size: 0.84rem;
-            padding: 9px 12px;
-            border-radius: 10px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 0.95rem;
         }
-
-        .btn-gallery-toggle.paused {
-            background: #f59e0b;
-        }
+        .btn-gallery-toggle.paused { background: #f59e0b; }
 
         .speed-selector-box {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
             background: #f1f5f9;
-            border: 1px solid #cbd5e1;
-            padding: 6px 10px;
-            border-radius: 10px;
-            font-size: 0.82rem;
+            border: 2px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
             font-weight: 700;
-            color: #334155;
         }
 
         .speed-selector-box select {
             border: none;
             background: transparent;
-            font-weight: 800;
-            color: #0f172a;
+            font-family: inherit;
+            font-weight: 700;
             outline: none;
-            cursor: pointer;
         }
 
-        /* =========================================================
-           9. ANIMAÇÕES, TOASTS, MODAIS E CONFETES
-           ========================================================= */
-        @keyframes shakeBox {
-            0%, 100% { transform: rotate(0deg) scale(1); }
-            25% { transform: rotate(-2.5deg) scale(1.02); }
-            50% { transform: rotate(2.5deg) scale(1.02); }
-            75% { transform: rotate(-1.5deg) scale(1.01); }
+        @keyframes spinGear { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .spinning { display: inline-block; animation: spinGear 0.8s linear infinite; }
+
+        @keyframes inputErrorShake {
+            0%, 100% { transform: translateX(0); }
+            25%, 75% { transform: translateX(-6px); }
+            50% { transform: translateX(6px); }
+        }
+        .animate-input-error {
+            animation: inputErrorShake 0.35s ease-in-out;
+            border-color: #ef4444 !important;
+            background-color: #fef2f2 !important;
         }
 
-        .shaking {
-            animation: shakeBox 0.35s ease-in-out infinite;
-        }
-
-        @keyframes spinGear {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        .spinning {
-            display: inline-block;
-            animation: spinGear 0.8s linear infinite;
-        }
-
-        @keyframes popIn {
-            0% { opacity: 0; transform: scale(0.75) translateY(12px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
-
-        @keyframes slideFade {
-            0% { opacity: 0.3; transform: scale(0.97); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-
-        .slide-animate {
-            animation: slideFade 0.4s ease-out forwards;
-        }
-
-        /* Toast notifications */
         .toast-container {
             position: fixed;
-            top: 18px;
-            right: 18px;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
             z-index: 9999;
             display: flex;
             flex-direction: column;
@@ -1119,401 +894,276 @@
         .toast-msg {
             background: #1e293b;
             color: #ffffff;
-            padding: 11px 16px;
-            border-radius: 12px;
-            font-size: 0.88rem;
+            padding: 12px 20px;
+            border-radius: 14px;
+            font-size: 1rem;
             font-weight: 600;
             box-shadow: var(--shadow-lg);
-            border-left: 5px solid #3b82f6;
-            animation: popIn 0.25s ease-out forwards;
+            border-left: 6px solid #3b82f6;
         }
-
         .toast-msg.success { border-left-color: #10b981; }
         .toast-msg.warn { border-left-color: #f59e0b; }
-
-        /* Modais Customizados (Confirmação e Ajuda PowerShell) */
-        .modal-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.65);
-            z-index: 9000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-        }
-
-        .modal-backdrop.open {
-            display: flex;
-        }
-
-        .modal-card {
-            background: #ffffff;
-            border-radius: 22px;
-            max-width: 480px;
-            width: 100%;
-            padding: 24px;
-            box-shadow: var(--shadow-lg);
-            border: 3px solid #cbd5e1;
-            animation: popIn 0.25s ease-out forwards;
-        }
-
-        .modal-card h3 {
-            font-size: 1.2rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-            color: #0f172a;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .modal-card p {
-            font-size: 0.92rem;
-            color: #475569;
-            margin-bottom: 14px;
-        }
-
-        .code-snippet-box {
-            background: #0f172a;
-            color: #38bdf8;
-            font-family: Consolas, Monaco, monospace;
-            font-size: 0.8rem;
-            padding: 12px;
-            border-radius: 12px;
-            overflow-x: auto;
-            margin-bottom: 14px;
-            user-select: all;
-            line-height: 1.45;
-        }
-
-        .modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-
-        .btn-modal-secondary {
-            background: #f1f5f9;
-            color: #475569;
-            font-weight: 700;
-            padding: 9px 16px;
-            border-radius: 10px;
-        }
-
-        .btn-modal-primary {
-            background: var(--blue-primary);
-            color: #ffffff;
-            font-weight: 700;
-            padding: 9px 16px;
-            border-radius: 10px;
-        }
-
-        .header-actions {
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn-sound-header {
-            background: rgba(16, 185, 129, 0.9);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.35);
-            padding: 10px 16px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 0.88rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-sound-header.muted {
-            background: rgba(51, 65, 85, 0.85);
-            color: #cbd5e1;
-        }
 
         #confetti-canvas {
             position: fixed;
             inset: 0;
-            width: 100%;
-            height: 100%;
             pointer-events: none;
             z-index: 9998;
-        }
-
-        /* Animação suave de transição para o slideshow da galeria */
-        @keyframes galleryFade {
-            0% { opacity: 0.25; transform: scale(0.97); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-        .animate-gallery-slide {
-            animation: galleryFade 0.45s ease-out forwards;
-        }
-
-        /* Vibração de alerta quando o campo estiver vazio */
-        @keyframes inputErrorShake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-6px); }
-            40%, 80% { transform: translateX(6px); }
-        }
-        .animate-input-error {
-            animation: inputErrorShake 0.4s ease-in-out;
-            border-color: #ef4444 !important;
-            background-color: #fef2f2 !important;
         }
     </style>
 </head>
 <body>
 
-    <!-- Canvas para efeito de confetes em CSS/JS puro (funciona 100% offline) -->
     <canvas id="confetti-canvas"></canvas>
-
-    <!-- Notificações Toast -->
     <div id="toast-container" class="toast-container"></div>
 
-    <!-- Modal de Confirmação -->
-    <div id="confirm-modal" class="modal-backdrop">
-        <div class="modal-card">
-            <h3 id="confirm-title">⚠️ Confirmar Ação</h3>
-            <p id="confirm-message">Tem certeza que deseja continuar?</p>
-            <div class="modal-actions">
-                <button id="confirm-cancel-btn" class="btn-modal-secondary">Cancelar</button>
-                <button id="confirm-ok-btn" class="btn-modal-primary">Sim, confirmar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Ajuda da Pasta ./desenhos/ -->
-    <div id="help-modal" class="modal-backdrop">
-        <div class="modal-card">
-            <h3>📂 Como carregar todos os desenhos automaticamente</h3>
-            <p>
-                O site busca imagens na pasta <strong><code>./desenhos/</code></strong> (ao lado deste arquivo HTML) de 4 formas:
-            </p>
-            <p style="font-size: 0.85rem; margin-bottom: 8px;">
-                <strong>1. Via arquivo <code>lista.json</code> (Infalível):</strong> Abra o terminal do VS Code na pasta do projeto e rode o comando PowerShell abaixo para listar todos os arquivos automaticamente:
-            </p>
-            <pre id="ps-command-text" class="code-snippet-box">dir desenhos -Name | ConvertTo-Json | Out-File -Encoding utf8 desenhos/lista.json</pre>
-            <p style="font-size: 0.85rem;">
-                <strong>2. Live Server:</strong> Ao abrir com <em>Open with Live Server</em>, a pasta é lida sozinha.<br>
-                <strong>3. Nomes numerados:</strong> Salve como <code>1.jpg</code>, <code>2.png</code>... até <code>50</code>.<br>
-                <strong>4. Lista manual:</strong> Edite <code>LISTA_DESENHOS</code> no início do <code>&lt;script&gt;</code>.
-            </p>
-            <div class="modal-actions">
-                <button onclick="copyPsCommand()" class="btn-modal-secondary">📋 Copiar Comando</button>
-                <button onclick="closeHelpModal()" class="btn-modal-primary">Entendi!</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Cabeçalho Principal -->
+    <!-- Cabeçalho Superior -->
     <header class="app-header">
         <div class="header-inner">
-            <div class="header-brand">
+            <div class="header-brand" onclick="showMainView('view-splash')" title="Voltar ao Início">
                 <div class="brand-icon">🤖</div>
-                <div>
-                    <h1>Máquina de Frases</h1>
-                    <p class="header-subtitle">
-                        Pensamento Computacional:
-                        <span class="pill-badge pill-in">Input</span> ➔
-                        <span class="pill-badge pill-proc">Processamento</span> ➔
-                        <span class="pill-badge pill-out">Output</span>
-                    </p>
-                </div>
+                <h1>Máquina de Frases!</h1>
             </div>
 
-            <!-- Controles do Cabeçalho: Sons + Restaurar Padrões -->
             <div class="header-actions">
-                <button id="sound-toggle-btn" onclick="toggleSoundFX()" class="btn-sound-header">
+                <button id="sound-toggle-btn" onclick="toggleSoundFX()" class="btn-header btn-sound active">
                     <span id="sound-toggle-icon">🔊</span>
                     <span id="sound-toggle-text">Sons: Ligados</span>
                 </button>
 
-                <button onclick="requestResetDefaults()" class="btn-reset-header">
+                <button onclick="resetDefaults()" class="btn-header" title="Restaurar palavras iniciais">
                     <span>🔄</span>
-                    <span>Restaurar Exemplos Padrão</span>
+                    <span>Padrão</span>
+                </button>
+
+                <button onclick="openGalleryDrawer()" class="btn-hamburger" aria-label="Abrir Desenhos da Turma">
+                    <span>☰</span>
+                    <span>Desenhos da Turma</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- CONTAINER PRINCIPAL LADO A LADO -->
-    <div class="workspace-layout">
+    <!-- ===========================================================
+         TELA 0: TELA INICIAL CHAMATIVA + BOTÃO INICIAR
+         =========================================================== -->
+    <main id="view-splash" class="view-section active">
+        <div class="splash-container">
+            <div class="splash-card">
+                <div class="splash-robot">🤖</div>
+                <h1 class="rainbow-title">Máquina de Frases!</h1>
+                <p class="splash-desc">
+                    Misture palavras, crie frases divertidas e aprenda como os computadores pensam!
+                </p>
+                <button class="btn-start-hero" onclick="goToLevelSelect()">
+                    <span>🚀</span>
+                    <span>INICIAR</span>
+                </button>
+            </div>
+        </div>
+    </main>
 
-        <!-- ÁREA PRINCIPAL À ESQUERDA -->
-        <main class="main-area">
-
-            <!-- Seletor de Modos / Níveis -->
-            <section class="card-panel" aria-label="Seleção de Nível">
-                <div class="mode-header">
-                    <span class="mode-label">🎯 Escolha o Modo da Aula:</span>
-                    <span id="mode-description" class="mode-desc-badge">Estrutura: Sujeito + Ação + Lugar</span>
-                </div>
-                <div id="mode-tabs" class="mode-tabs-grid"></div>
-            </section>
-
-            <!-- ETAPA 1: INPUT -->
-            <section class="section-input" aria-label="Área de Input">
-                <div class="section-title-row">
-                    <div class="section-title-left">
-                        <span class="step-badge step-badge-blue">📥 1. INPUT (Entrada)</span>
-                        <h2>Alimente as Caixas com Dados</h2>
+    <!-- ===========================================================
+         TELA 1: SELECIONAR NÍVEL DE DIFICULDADE
+         =========================================================== -->
+    <main id="view-levels" class="view-section">
+        <div class="level-select-wrapper">
+            <div class="level-panel">
+                <div class="level-panel-header">
+                    <div class="level-panel-title">
+                        <span>🎯</span>
+                        <span>ESCOLHA O MODO DA AULA:</span>
                     </div>
-                    <span class="hint-pill">💡 Digite palavras ou nomes e aperte <strong>Enter</strong></span>
+                    <span id="level-preview-badge" class="level-preview-pill">Estrutura: Sujeito + Ação + Lugar</span>
                 </div>
 
+                <div id="level-cards-grid" class="level-cards-grid"></div>
+
+                <div class="screen-footer-actions">
+                    <button class="btn-nav-secondary" onclick="showMainView('view-splash')">
+                        <span>⬅</span>
+                        <span>Início</span>
+                    </button>
+                    <button class="btn-nav-primary" onclick="enterActivityScreen()">
+                        <span>Começar Atividade</span>
+                        <span>➔</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ===========================================================
+         TELA 2: TELA PRINCIPAL (INPUT -> PROCESSAMENTO -> OUTPUT)
+         =========================================================== -->
+    <main id="view-activity" class="view-section">
+        <div class="top-context-bar">
+            <span id="active-level-badge" class="active-level-badge">Nível 1: 3 Caixas</span>
+            <button class="btn-change-level" onclick="goToLevelSelect()">
+                🎯 Trocar Nível
+            </button>
+        </div>
+
+        <!-- Barra de 3 Etapas -->
+        <nav class="stepper-track" aria-label="Etapas da Máquina">
+            <button class="step-tab active" data-step="1" onclick="goToSubStep(1)">
+                <span class="step-num">1</span>
+                <span>📥 Input</span>
+            </button>
+            <button class="step-tab" data-step="2" onclick="goToSubStep(2)">
+                <span class="step-num">2</span>
+                <span>⚙️ Processamento</span>
+            </button>
+            <button class="step-tab" data-step="3" onclick="goToSubStep(3)">
+                <span class="step-num">3</span>
+                <span>📤 Output</span>
+            </button>
+        </nav>
+
+        <!-- SUB-TELA 1: INPUT -->
+        <section id="substep-1" class="sub-screen active">
+            <div class="panel-card">
+                <h2 style="font-size: 1.3rem; color: #1d4ed8;">📥 Coloque as Palavras nas Caixas:</h2>
                 <div id="boxes-container" class="boxes-grid"></div>
-            </section>
 
-            <!-- ETAPA 2: PROCESSAMENTO -->
-            <section class="section-process" aria-label="Área de Processamento">
-                <span class="step-badge step-badge-amber">⚙️ 2. PROCESSAMENTO (Algoritmo)</span>
-                <h2>Pronto para misturar e sortear os dados?</h2>
-                <p>O computador vai chacoalhar as caixas e escolher <strong>1 item aleatório</strong> de cada categoria!</p>
+                <div class="screen-footer-actions">
+                    <span style="color: #64748b; font-size: 0.92rem;">💡 Digite e aperte <strong>Enter</strong> ou <strong>+</strong></span>
+                    <button class="btn-nav-primary" onclick="goToSubStep(2)">
+                        <span>Ir para o Processamento</span>
+                        <span>➔</span>
+                    </button>
+                </div>
+            </div>
+        </section>
 
-                <button id="process-btn" class="btn-process" onclick="startProcessing()">
+        <!-- SUB-TELA 2: PROCESSAMENTO -->
+        <section id="substep-2" class="sub-screen">
+            <div class="process-stage-card">
+                <h2 style="font-size: 1.85rem; color: #92400e; margin-bottom: 8px;">⚙️ Hora de Misturar as Caixas!</h2>
+                <p style="font-size: 1.1rem; color: #78350f; margin-bottom: 24px;">
+                    O computador vai escolher <strong>1 palavra de cada caixa</strong> para montar o desafio.
+                </p>
+
+                <button id="process-btn" class="btn-process-big" onclick="startProcessing()">
                     <span id="process-icon">⚙️</span>
-                    <span id="process-text">PROCESSAR / SORTEAR DADOS!</span>
+                    <span id="process-text">SORTEAR PALAVRAS AGORA!</span>
                 </button>
 
-                <div id="processing-status" class="progress-wrapper">
-                    <div class="progress-label">🎲 Misturando caixas e sorteando combinações...</div>
-                    <div class="progress-track">
-                        <div id="progress-bar" class="progress-fill"></div>
-                    </div>
+                <div id="processing-progress" class="progress-track">
+                    <div id="progress-bar" class="progress-fill"></div>
                 </div>
-            </section>
 
-            <!-- ETAPA 3: OUTPUT -->
-            <section id="output-section" class="section-output" aria-label="Área de Output">
-                <div class="section-title-row">
-                    <div class="section-title-left">
-                        <span class="step-badge step-badge-emerald">📤 3. OUTPUT (Saída)</span>
-                        <h2>Resultado do Sorteio</h2>
-                    </div>
+                <div id="roulette-preview" class="roulette-preview-grid"></div>
 
-                    <button id="speak-btn" class="btn-speak" onclick="speakSentence()" disabled>
+                <div class="screen-footer-actions" style="margin-top: 30px;">
+                    <button class="btn-nav-secondary" onclick="goToSubStep(1)">
+                        <span>⬅</span>
+                        <span>Voltar para as Caixas</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SUB-TELA 3: OUTPUT -->
+        <section id="substep-3" class="sub-screen">
+            <div class="panel-card">
+                <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px;">
+                    <h2 style="font-size: 1.4rem; color: #047857;">📤 Palavras Sorteadas:</h2>
+                    <button class="btn-speak" onclick="speakSentence()">
                         <span>🔊</span>
-                        <span>Ouvir Frase em Voz Alta</span>
+                        <span>Ouvir em Voz Alta</span>
                     </button>
                 </div>
 
-                <div id="output-cards-container" class="output-cards-stage">
-                    <div class="output-placeholder">
-                        <div style="font-size: 2rem; margin-bottom: 6px;">✨</div>
-                        <p>Clique em <strong>"PROCESSAR / SORTEAR DADOS!"</strong> acima para gerar uma frase!</p>
-                    </div>
-                </div>
+                <div id="output-cards-container" class="output-cards-stage"></div>
 
-                <!-- Desafio da Criança -->
-                <div id="challenge-box" class="challenge-panel">
-                    <div class="challenge-top">
-                        <h3>✏️ Desafio da Criança: Monte e Escreva a Frase!</h3>
-                        <span class="debug-badge">Depuração (Debug) & Concordância</span>
-                    </div>
-                    <p class="challenge-desc">
-                        Observe os cartões sorteados acima e <strong>digite a frase completa</strong> abaixo, fazendo os ajustes de concordância necessários:
-                    </p>
+                <div class="challenge-panel">
+                    <h3 style="font-size: 1.3rem; color: #065f46; margin-bottom: 4px;">✏️ Agora é sua vez! Escreva a frase completa:</h3>
+                    <p style="font-size: 1rem; color: #047857;">Use <strong>todas as palavras sorteadas acima</strong> na sua frase para validar!</p>
 
                     <div class="challenge-form">
                         <input type="text" id="final-sentence-input"
-                               placeholder="Olhe os cartões acima e digite aqui a frase completa..."
+                               placeholder="Digite aqui a frase usando os cartões acima..."
                                class="final-input"
                                onkeydown="if(event.key === 'Enter') completeSentence()">
 
                         <button onclick="completeSentence()" class="btn-complete">
                             <span>🎉</span>
-                            <span>Concluir Frase</span>
+                            <span>Validar Frase</span>
                         </button>
                     </div>
 
                     <div id="completed-history-wrapper" class="mural-wrapper">
-                        <div class="mural-header">
-                            <h4>🏆 Mural de Frases Criadas pela Turma</h4>
-                            <button onclick="clearCompletedHistory()" class="btn-clear-mural">Limpar Mural</button>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <h4 style="color: #5b21b6; font-size: 1.1rem;">🏆 Mural de Frases Validadas</h4>
+                            <button onclick="clearCompletedHistory()" style="background: #fee2e2; color: #b91c1c; padding: 5px 10px; border-radius: 10px; font-weight: 700; font-size: 0.8rem;">Limpar</button>
                         </div>
                         <ul id="completed-list" class="mural-list"></ul>
                     </div>
                 </div>
-            </section>
 
-        </main>
-
-        <!-- SIDEBAR FIXA E CONTIDA À DIREITA: GALERIA DA TURMA -->
-        <aside class="gallery-sidebar" aria-label="Galeria da Turma">
-            <div class="sidebar-header">
-                <div class="sidebar-title-group">
-                    <div class="sidebar-icon">🎨</div>
-                    <div>
-                        <h2>Galeria da Turma</h2>
-                        <p>Desenhos em loop contínuo</p>
-                    </div>
-                </div>
-                <span id="gallery-badge-source" class="sidebar-badge">Buscando...</span>
-            </div>
-
-            <div class="sidebar-status-bar">
-                <div id="gallery-folder-info" class="sidebar-status-text">
-                    Pasta <code>./desenhos/</code>
-                </div>
-                <div class="sidebar-mini-actions">
-                    <button class="btn-sidebar-mini" onclick="scanLocalDrawingsFolder()" title="Recarregar pasta ./desenhos/">🔄</button>
-                    <button class="btn-sidebar-mini" onclick="openHelpModal()" title="Ajuda para carregar desenhos">?</button>
-                </div>
-            </div>
-
-            <div class="sidebar-body">
-                <!-- Moldura Proporcional da Imagem (aspect-ratio: 4/3, max-height: 240px) -->
-                <div class="gallery-frame">
-                    <img id="gallery-current-img" src="" alt="Desenho do aluno">
-                    <button class="gallery-nav-btn gallery-prev" onclick="prevSlide()" title="Anterior">◀</button>
-                    <button class="gallery-nav-btn gallery-next" onclick="nextSlide()" title="Próximo">▶</button>
-                    <span id="gallery-counter" class="gallery-counter-pill">1 / 4</span>
-                    <div class="gallery-progress-track">
-                        <div id="gallery-timer-bar" class="gallery-progress-bar"></div>
-                    </div>
-                </div>
-
-                <!-- Legenda da Obra -->
-                <div class="gallery-caption-box">
-                    <span class="gallery-caption-label">Obra em Exibição</span>
-                    <div id="gallery-caption" class="gallery-caption-title">Exemplo 1 - O Cachorro no Sofá</div>
-                </div>
-
-                <!-- Controles de Reprodução e Velocidade -->
-                <div class="gallery-controls-row">
-                    <button id="gallery-play-btn" class="btn-gallery-toggle" onclick="toggleGalleryPlay()">
-                        <span id="gallery-play-icon">⏸️</span>
-                        <span id="gallery-play-text">Pausar Loop</span>
+                <div class="screen-footer-actions">
+                    <button class="btn-nav-secondary" onclick="goToSubStep(1)">
+                        <span>📥</span>
+                        <span>Editar Caixas</span>
                     </button>
-
-                    <div class="speed-selector-box">
-                        <label for="gallery-speed" title="Tempo por slide">⏱️</label>
-                        <select id="gallery-speed" onchange="changeGallerySpeed()">
-                            <option value="3000">3s</option>
-                            <option value="5000" selected>5s</option>
-                            <option value="8000">8s</option>
-                            <option value="12000">12s</option>
-                        </select>
-                    </div>
+                    <button class="btn-nav-primary" style="background: linear-gradient(135deg, #f59e0b, #d97706);" onclick="goToSubStep(2)">
+                        <span>🎲</span>
+                        <span>Sortear Novamente</span>
+                    </button>
                 </div>
             </div>
-        </aside>
+        </section>
+    </main>
 
-    </div>
+    <!-- ===========================================================
+         MENU HAMBÚRGUER: GAVETA LATERAL DOS 59 DESENHOS DA TURMA
+         =========================================================== -->
+    <div id="drawer-backdrop" class="drawer-backdrop" onclick="closeGalleryDrawer()"></div>
+    <aside id="gallery-drawer" class="gallery-drawer" aria-label="Galeria da Turma">
+        <div class="drawer-header">
+            <div>
+                <h2 style="font-size: 1.25rem;">🎨 Desenhos da Turma</h2>
+                <p style="font-size: 0.82rem; color: #fce7f3;">Galeria em loop contínuo (59 desenhos)</p>
+            </div>
+            <button class="btn-close-drawer" onclick="closeGalleryDrawer()" title="Fechar">✕</button>
+        </div>
+
+        <div class="drawer-body">
+            <div class="gallery-frame">
+                <img id="gallery-current-img" src="" alt="Desenho da Turma">
+                <button class="gallery-nav-btn gallery-prev" onclick="prevSlide()" title="Anterior">◀</button>
+                <button class="gallery-nav-btn gallery-next" onclick="nextSlide()" title="Próximo">▶</button>
+                <span id="gallery-counter" class="gallery-counter-pill">1 / 59</span>
+                <div class="gallery-progress-track">
+                    <div id="gallery-timer-bar" class="gallery-progress-bar"></div>
+                </div>
+            </div>
+
+            <div id="gallery-caption" class="gallery-caption-box">Desenho #1 da Turma</div>
+
+            <div class="gallery-controls-row">
+                <button id="gallery-play-btn" class="btn-gallery-toggle" onclick="toggleGalleryPlay()">
+                    <span id="gallery-play-icon">⏸️</span>
+                    <span id="gallery-play-text">Pausar Loop</span>
+                </button>
+
+                <div class="speed-selector-box">
+                    <label for="gallery-speed">⏱️</label>
+                    <select id="gallery-speed" onchange="changeGallerySpeed()">
+                        <option value="3000">3s</option>
+                        <option value="5000" selected>5s</option>
+                        <option value="8000">8s</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </aside>
 
     <script>
-        // =========================================================================
-        // CONFIGURAÇÃO DA PASTA LOCAL DE DESENHOS (./desenhos/)
-        // =========================================================================
         const PASTA_DESENHOS = 'desenhos/';
-        const LISTA_DESENHOS = Array.from({ length: 59 }, (_, i) => `${i + 1}.jpg`);
+        const TOTAL_DESENHOS = 59;
 
-        // =========================================================================
-        // 1. DEFINIÇÃO DOS NÍVEIS E DADOS INICIAIS DA MÁQUINA DE FRASES
-        // =========================================================================
         const MODES_CONFIG = [
             {
                 id: 'nivel1',
@@ -1521,30 +1171,9 @@
                 subtitle: 'Sujeito + Ação + Lugar',
                 description: 'Estrutura: Sujeito + Ação + Lugar',
                 boxes: [
-                    {
-                        id: 'sujeito',
-                        label: 'Sujeito',
-                        emoji: '🧑',
-                        color: '#3b82f6',
-                        placeholder: 'Ex: O gato...',
-                        defaults: ['O cachorro', 'A menina', 'O robô', 'O astronauta', 'A professora']
-                    },
-                    {
-                        id: 'acao',
-                        label: 'Ação (Verbo)',
-                        emoji: '⚡',
-                        color: '#f59e0b',
-                        placeholder: 'Ex: pulou...',
-                        defaults: ['pulou', 'dançou', 'correu', 'desenhou', 'cantou']
-                    },
-                    {
-                        id: 'lugar',
-                        label: 'Lugar',
-                        emoji: '📍',
-                        color: '#10b981',
-                        placeholder: 'Ex: na escola...',
-                        defaults: ['no sofá', 'na escola', 'no parque', 'na lua', 'na praia']
-                    }
+                    { id: 'sujeito', label: 'Sujeito', emoji: '🧑', color: '#3b82f6', placeholder: 'Ex: O gato...', defaults: ['O cachorro', 'A menina', 'O robô', 'O astronauta', 'A professora'] },
+                    { id: 'acao', label: 'Ação', emoji: '⚡', color: '#f59e0b', placeholder: 'Ex: pulou...', defaults: ['pulou', 'dançou', 'correu', 'desenhou', 'cantou'] },
+                    { id: 'lugar', label: 'Lugar', emoji: '📍', color: '#10b981', placeholder: 'Ex: na escola...', defaults: ['no sofá', 'na escola', 'no parque', 'na lua', 'na praia'] }
                 ]
             },
             {
@@ -1553,38 +1182,10 @@
                 subtitle: 'Momento + Pessoa + Ação + Comida',
                 description: 'Estrutura: Momento + Pessoa + Ação + Comida',
                 boxes: [
-                    {
-                        id: 'momento',
-                        label: 'Momento',
-                        emoji: '⏰',
-                        color: '#8b5cf6',
-                        placeholder: 'Ex: No recreio...',
-                        defaults: ['No almoço', 'Na janta', 'No café da manhã', 'No recreio']
-                    },
-                    {
-                        id: 'pessoa',
-                        label: 'Pessoa',
-                        emoji: '🧒',
-                        color: '#3b82f6',
-                        placeholder: 'Ex: Lucas...',
-                        defaults: ['eu', 'Ana', 'Pedro', 'a turma']
-                    },
-                    {
-                        id: 'acao2',
-                        label: 'Ação',
-                        emoji: '🍽️',
-                        color: '#f59e0b',
-                        placeholder: 'Ex: saboreou...',
-                        defaults: ['comi', 'tomou', 'comeu', 'preparou']
-                    },
-                    {
-                        id: 'comida',
-                        label: 'Comida',
-                        emoji: '🍕',
-                        color: '#ec4899',
-                        placeholder: 'Ex: melancia...',
-                        defaults: ['feijão', 'sopa', 'pão', 'bolo de cenoura']
-                    }
+                    { id: 'momento', label: 'Momento', emoji: '⏰', color: '#8b5cf6', placeholder: 'Ex: No recreio...', defaults: ['No almoço', 'Na janta', 'No café da manhã', 'No recreio'] },
+                    { id: 'pessoa', label: 'Pessoa', emoji: '🧒', color: '#3b82f6', placeholder: 'Ex: Lucas...', defaults: ['eu', 'Ana', 'Pedro', 'a turma'] },
+                    { id: 'acao2', label: 'Ação', emoji: '🍽️', color: '#f59e0b', placeholder: 'Ex: comeu...', defaults: ['comi', 'tomou', 'comeu', 'preparou'] },
+                    { id: 'comida', label: 'Comida', emoji: '🍕', color: '#ec4899', placeholder: 'Ex: melancia...', defaults: ['feijão', 'sopa', 'pão', 'bolo de cenoura'] }
                 ]
             },
             {
@@ -1593,87 +1194,28 @@
                 subtitle: 'Clima + Personagem + Ação + Objeto + Lugar',
                 description: 'Estrutura: Clima + Personagem + Ação + Objeto + Lugar',
                 boxes: [
-                    {
-                        id: 'clima',
-                        label: 'Clima',
-                        emoji: '🌦️',
-                        color: '#06b6d4',
-                        placeholder: 'Ex: Em um dia de sol...',
-                        defaults: ['Em um dia chuvoso', 'Em um dia quente', 'Em um dia frio', 'Em uma noite estrelada']
-                    },
-                    {
-                        id: 'personagem',
-                        label: 'Personagem',
-                        emoji: '🐻',
-                        color: '#3b82f6',
-                        placeholder: 'Ex: o dragão...',
-                        defaults: ['o sapo', 'a criança', 'o urso', 'a fada']
-                    },
-                    {
-                        id: 'acao3',
-                        label: 'Ação',
-                        emoji: '🚀',
-                        color: '#f59e0b',
-                        placeholder: 'Ex: encontrou...',
-                        defaults: ['pulou', 'tomou', 'vestiu', 'achou']
-                    },
-                    {
-                        id: 'objeto',
-                        label: 'Objeto',
-                        emoji: '🎒',
-                        color: '#8b5cf6',
-                        placeholder: 'Ex: um livro...',
-                        defaults: ['a poça', 'sorvete', 'o cachecol', 'um guarda-chuva']
-                    },
-                    {
-                        id: 'lugar3',
-                        label: 'Lugar',
-                        emoji: '🗺️',
-                        color: '#10b981',
-                        placeholder: 'Ex: na floresta...',
-                        defaults: ['no parque', 'na praia', 'na montanha', 'no castelo']
-                    }
+                    { id: 'clima', label: 'Clima', emoji: '🌦️', color: '#06b6d4', placeholder: 'Ex: Em um dia de sol...', defaults: ['Em um dia chuvoso', 'Em um dia quente', 'Em um dia frio', 'Em uma noite estrelada'] },
+                    { id: 'personagem', label: 'Personagem', emoji: '🐻', color: '#3b82f6', placeholder: 'Ex: o dragão...', defaults: ['o sapo', 'a criança', 'o urso', 'a fada'] },
+                    { id: 'acao3', label: 'Ação', emoji: '🚀', color: '#f59e0b', placeholder: 'Ex: achou...', defaults: ['pulou', 'tomou', 'vestiu', 'achou'] },
+                    { id: 'objeto', label: 'Objeto', emoji: '🎒', color: '#8b5cf6', placeholder: 'Ex: um livro...', defaults: ['a poça', 'sorvete', 'o cachecol', 'um guarda-chuva'] },
+                    { id: 'lugar3', label: 'Lugar', emoji: '🗺️', color: '#10b981', placeholder: 'Ex: na floresta...', defaults: ['no parque', 'na praia', 'na montanha', 'no castelo'] }
                 ]
             },
             {
                 id: 'turma',
                 title: 'Modo Turma',
-                subtitle: 'Nomes + Verbos + Ação',
-                description: 'Modo Personalizado: Nomes dos Alunos + Verbos + Ação',
+                subtitle: 'Nomes + Ação + Complementos',
+                description: 'Modo Personalizado: Nomes dos Alunos + Ação + Complementos',
                 boxes: [
-                    {
-                        id: 'nomes_alunos',
-                        label: 'Nomes dos Alunos',
-                        emoji: '🎓',
-                        color: '#2563eb',
-                        placeholder: 'Digite o nome do aluno...',
-                        defaults: ['Alice', 'Bernardo', 'Cecília', 'Davi', 'Helena', 'Miguel']
-                    },
-                    {
-                        id: 'verbos_turma',
-                        label: 'Verbos',
-                        emoji: '⚡',
-                        color: '#d97706',
-                        placeholder: 'Ex: programou, pintou...',
-                        defaults: ['programou', 'desenhou', 'inventou', 'consertou', 'descobriu']
-                    },
-                    {
-                        id: 'acao_complemento',
-                        label: 'Ação / Complemento',
-                        emoji: '💡',
-                        color: '#059669',
-                        placeholder: 'Ex: um jogo divertido...',
-                        defaults: ['um robô dançante', 'um foguete espacial', 'uma história em quadrinhos', 'um jogo de computador']
-                    }
+                    { id: 'nomes_alunos', label: 'Nomes dos Alunos', emoji: '🎓', color: '#2563eb', placeholder: 'Digite o nome do aluno...', defaults: ['Alice', 'Bernardo', 'Cecília', 'Davi', 'Helena', 'Miguel'] },
+                    { id: 'acao_turma', label: 'Ação', emoji: '⚡', color: '#d97706', placeholder: 'Ex: programou, pintou...', defaults: ['programou', 'desenhou', 'inventou', 'consertou', 'descobriu'] },
+                    { id: 'complementos_turma', label: 'Complementos', emoji: '💡', color: '#059669', placeholder: 'Ex: um jogo divertido...', defaults: ['um robô dançante', 'um foguete espacial', 'uma história em quadrinhos', 'um jogo de computador'] }
                 ]
             }
         ];
 
-        // =========================================================================
-        // 2. ESTADO DA APLICAÇÃO E LOCALSTORAGE
-        // =========================================================================
-        const STORAGE_KEY = 'maquina_frases_v2_data';
-        const HISTORY_KEY = 'maquina_frases_v2_history';
+        const STORAGE_KEY = 'maquina_frases_v4_data';
+        const HISTORY_KEY = 'maquina_frases_v4_history';
 
         let appData = {};
         let currentModeId = 'nivel1';
@@ -1683,20 +1225,16 @@
         let soundEnabled = true;
         let audioCtx = null;
 
-        // ==========================================
-        // SINTETIZADOR DE EFEITOS SONOROS (WEB AUDIO API - 100% OFFLINE)
-        // ==========================================
+        // =========================================================================
+        // EFEITOS SONOROS (WEB AUDIO API)
+        // =========================================================================
         function getAudioContext() {
             if (!soundEnabled) return null;
             if (!audioCtx) {
-                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-                if (AudioContextClass) {
-                    audioCtx = new AudioContextClass();
-                }
+                const Ctx = window.AudioContext || window.webkitAudioContext;
+                if (Ctx) audioCtx = new Ctx();
             }
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume().catch(() => {});
-            }
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
             return audioCtx;
         }
 
@@ -1705,14 +1243,13 @@
             const btn = document.getElementById('sound-toggle-btn');
             const icon = document.getElementById('sound-toggle-icon');
             const text = document.getElementById('sound-toggle-text');
-
             if (soundEnabled) {
-                btn.classList.remove('muted');
+                btn.classList.add('active');
                 icon.textContent = '🔊';
                 text.textContent = 'Sons: Ligados';
                 playSound('pop');
             } else {
-                btn.classList.add('muted');
+                btn.classList.remove('active');
                 icon.textContent = '🔇';
                 text.textContent = 'Sons: Mudos';
             }
@@ -1721,168 +1258,209 @@
         function playSound(type, stepIndex = 0) {
             const ctx = getAudioContext();
             if (!ctx) return;
-
             const now = ctx.currentTime;
 
             if (type === 'pop') {
-                // Som alegre "plim/pop" ao adicionar dado na caixa
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(520, now);
                 osc.frequency.exponentialRampToValueAtTime(880, now + 0.11);
-                gain.gain.setValueAtTime(0.22, now);
+                gain.gain.setValueAtTime(0.2, now);
                 gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.start(now);
-                osc.stop(now + 0.15);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(now); osc.stop(now + 0.15);
             } else if (type === 'remove') {
-                // Som suave descendente ao remover item
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
                 osc.type = 'triangle';
                 osc.frequency.setValueAtTime(420, now);
                 osc.frequency.exponentialRampToValueAtTime(220, now + 0.12);
-                gain.gain.setValueAtTime(0.16, now);
+                gain.gain.setValueAtTime(0.15, now);
                 gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.start(now);
-                osc.stop(now + 0.15);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(now); osc.stop(now + 0.15);
             } else if (type === 'mode') {
-                // Som "boing/clique" ao trocar de nível
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(340, now);
-                osc.frequency.exponentialRampToValueAtTime(620, now + 0.08);
-                osc.frequency.exponentialRampToValueAtTime(480, now + 0.16);
-                gain.gain.setValueAtTime(0.2, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.start(now);
-                osc.stop(now + 0.19);
+                osc.frequency.exponentialRampToValueAtTime(620, now + 0.1);
+                gain.gain.setValueAtTime(0.18, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(now); osc.stop(now + 0.17);
             } else if (type === 'tick') {
-                // Tick da roleta girando que sobe de tom conforme o passo
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
                 osc.type = 'triangle';
                 const freq = 320 + Math.min(stepIndex * 28, 480);
                 osc.frequency.setValueAtTime(freq, now);
-                osc.frequency.exponentialRampToValueAtTime(freq * 0.75, now + 0.045);
-                gain.gain.setValueAtTime(0.18, now);
+                gain.gain.setValueAtTime(0.16, now);
                 gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-                osc.start(now);
-                osc.stop(now + 0.055);
+                osc.connect(gain); gain.connect(ctx.destination);
+                osc.start(now); osc.stop(now + 0.055);
             } else if (type === 'reveal') {
-                // Acorde mágico "tã-dã!" na revelação dos cartões
-                const notes = [523.25, 659.25, 783.99, 1046.50]; // Dó, Mi, Sol, Dó5
-                notes.forEach((freq, idx) => {
+                [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
                     const osc = ctx.createOscillator();
                     const gain = ctx.createGain();
                     osc.type = 'triangle';
                     const start = now + idx * 0.07;
                     osc.frequency.setValueAtTime(freq, start);
-                    gain.gain.setValueAtTime(0.001, start);
-                    gain.gain.linearRampToValueAtTime(0.22, start + 0.02);
-                    gain.gain.exponentialRampToValueAtTime(0.001, start + 0.45);
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
-                    osc.start(start);
-                    osc.stop(start + 0.48);
+                    gain.gain.setValueAtTime(0.2, start);
+                    gain.gain.exponentialRampToValueAtTime(0.001, start + 0.4);
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.start(start); osc.stop(start + 0.42);
                 });
             } else if (type === 'error') {
-                // Som divertido de alerta "ops!"
-                [260, 195].forEach((freq, idx) => {
+                [250, 190].forEach((freq, idx) => {
                     const osc = ctx.createOscillator();
                     const gain = ctx.createGain();
                     osc.type = 'sawtooth';
-                    const start = now + idx * 0.13;
+                    const start = now + idx * 0.12;
                     osc.frequency.setValueAtTime(freq, start);
                     gain.gain.setValueAtTime(0.14, start);
-                    gain.gain.exponentialRampToValueAtTime(0.001, start + 0.14);
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
-                    osc.start(start);
-                    osc.stop(start + 0.15);
+                    gain.gain.exponentialRampToValueAtTime(0.001, start + 0.13);
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.start(start); osc.stop(start + 0.14);
                 });
             } else if (type === 'fanfare') {
-                // Fanfarra comemorativa brilhante ao concluir a frase
-                const melody = [
-                    { f: 523.25, t: 0.00, d: 0.14 }, // Dó
-                    { f: 659.25, t: 0.11, d: 0.14 }, // Mi
-                    { f: 783.99, t: 0.22, d: 0.14 }, // Sol
-                    { f: 1046.50, t: 0.34, d: 0.45 }, // Dó agudo
-                    { f: 783.99, t: 0.52, d: 0.14 }, // Sol
-                    { f: 1046.50, t: 0.66, d: 0.65 }  // Dó final
-                ];
-                melody.forEach(note => {
+                [
+                    { f: 523.25, t: 0.00, d: 0.14 },
+                    { f: 659.25, t: 0.11, d: 0.14 },
+                    { f: 783.99, t: 0.22, d: 0.14 },
+                    { f: 1046.50, t: 0.34, d: 0.45 },
+                    { f: 783.99, t: 0.52, d: 0.14 },
+                    { f: 1046.50, t: 0.66, d: 0.6 }
+                ].forEach(n => {
                     const osc = ctx.createOscillator();
                     const gain = ctx.createGain();
                     osc.type = 'triangle';
-                    const start = now + note.t;
-                    osc.frequency.setValueAtTime(note.f, start);
-                    gain.gain.setValueAtTime(0.001, start);
-                    gain.gain.linearRampToValueAtTime(0.24, start + 0.02);
-                    gain.gain.exponentialRampToValueAtTime(0.001, start + note.d);
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
-                    osc.start(start);
-                    osc.stop(start + note.d + 0.03);
+                    const start = now + n.t;
+                    osc.frequency.setValueAtTime(n.f, start);
+                    gain.gain.setValueAtTime(0.22, start);
+                    gain.gain.exponentialRampToValueAtTime(0.001, start + n.d);
+                    osc.connect(gain); gain.connect(ctx.destination);
+                    osc.start(start); osc.stop(start + n.d + 0.02);
                 });
             }
         }
 
-        function saveState() {
-            try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
-            } catch (e) {
-                // Ignora erro caso localStorage esteja bloqueado
-            }
+        // =========================================================================
+        // NAVEGAÇÃO ENTRE TELAS: CAPA -> NÍVEIS -> ATIVIDADE (INPUT/PROC/OUTPUT)
+        // =========================================================================
+        function showMainView(viewId) {
+            if (isProcessing) return;
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function saveHistory() {
-            try {
-                localStorage.setItem(HISTORY_KEY, JSON.stringify(completedSentences));
-            } catch (e) {}
+        function goToLevelSelect() {
+            playSound('mode');
+            renderLevelCards();
+            showMainView('view-levels');
+        }
+
+        function selectLevelAndOpen(modeId) {
+            currentModeId = modeId;
+            lastDrawnResult = [];
+            playSound('pop');
+            renderLevelCards();
+            enterActivityScreen();
+        }
+
+        function enterActivityScreen() {
+            const mode = getCurrentMode();
+            document.getElementById('active-level-badge').textContent = `${mode.title} (${mode.subtitle})`;
+            renderBoxes();
+            showMainView('view-activity');
+            goToSubStep(1, true);
+        }
+
+        function goToSubStep(step, silent = false) {
+            if (isProcessing) return;
+            const mode = getCurrentMode();
+
+            if (step === 2 || step === 3) {
+                for (const box of mode.boxes) {
+                    if ((appData[mode.id][box.id] || []).length === 0) {
+                        playSound('error');
+                        showToast(`Coloque pelo menos 1 palavra na caixa "${box.label}"!`, 'warn');
+                        step = 1;
+                        break;
+                    }
+                }
+            }
+
+            if (step === 3 && lastDrawnResult.length === 0) {
+                playSound('error');
+                showToast('Sorteie as palavras primeiro no Processamento!', 'warn');
+                step = 2;
+            }
+
+            document.querySelectorAll('.sub-screen').forEach(el => el.classList.remove('active'));
+            document.getElementById(`substep-${step}`).classList.add('active');
+
+            document.querySelectorAll('.step-tab').forEach(btn => {
+                btn.classList.toggle('active', Number(btn.dataset.step) === step);
+            });
+
+            if (step === 2) {
+                renderRouletteIdle();
+            }
+
+            if (!silent) playSound('mode');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // =========================================================================
-        // 3. RENDERIZAÇÃO DAS ABAS E CAIXAS DE INPUT
+        // DADOS E RENDERIZAÇÃO DE NÍVEIS E CAIXAS
         // =========================================================================
         function getCurrentMode() {
             return MODES_CONFIG.find(m => m.id === currentModeId) || MODES_CONFIG[0];
         }
 
-        function renderModeTabs() {
-            const container = document.getElementById('mode-tabs');
-            const descEl = document.getElementById('mode-description');
-            const activeMode = getCurrentMode();
+        function initAppData() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+                if (saved) appData = saved;
+            } catch (e) {}
 
-            descEl.textContent = activeMode.description;
+            MODES_CONFIG.forEach(mode => {
+                if (!appData[mode.id]) appData[mode.id] = {};
+                mode.boxes.forEach(box => {
+                    if (!Array.isArray(appData[mode.id][box.id])) {
+                        appData[mode.id][box.id] = [...box.defaults];
+                    }
+                });
+            });
 
-            container.innerHTML = MODES_CONFIG.map(mode => {
-                const isActive = mode.id === currentModeId;
-                return `
-                    <button class="mode-btn ${isActive ? 'active' : ''}" onclick="selectMode('${mode.id}')">
-                        <span class="mode-btn-title">${mode.title}</span>
-                        <span class="mode-btn-sub">${mode.subtitle}</span>
-                    </button>
-                `;
-            }).join('');
+            try {
+                const hist = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+                if (Array.isArray(hist)) completedSentences = hist;
+            } catch (e) {}
         }
 
-        function selectMode(modeId) {
-            if (isProcessing) return;
-            currentModeId = modeId;
-            playSound('mode');
-            renderModeTabs();
-            renderBoxes();
-            resetOutputStage();
+        function saveState() {
+            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(appData)); } catch (e) {}
+        }
+
+        function saveHistory() {
+            try { localStorage.setItem(HISTORY_KEY, JSON.stringify(completedSentences)); } catch (e) {}
+        }
+
+        function renderLevelCards() {
+            const container = document.getElementById('level-cards-grid');
+            const activeMode = getCurrentMode();
+            document.getElementById('level-preview-badge').textContent = activeMode.description;
+
+            container.innerHTML = MODES_CONFIG.map(mode => `
+                <button class="level-card-btn ${mode.id === currentModeId ? 'selected' : ''}" onclick="selectLevelAndOpen('${mode.id}')">
+                    <span class="level-card-title">${mode.title}</span>
+                    <span class="level-card-sub">${mode.subtitle}</span>
+                </button>
+            `).join('');
         }
 
         function renderBoxes() {
@@ -1898,31 +1476,24 @@
                             <button class="btn-remove-word" onclick="removeWord('${box.id}', ${idx})" title="Remover">×</button>
                         </li>
                     `).join('')
-                    : `<li class="empty-box-msg">Caixa vazia! Adicione palavras acima.</li>`;
+                    : `<li style="color:#94a3b8;font-size:0.88rem;font-style:italic;">Caixa vazia! Adicione uma palavra.</li>`;
 
                 return `
-                    <div class="data-box" id="box-card-${box.id}" style="--box-accent: ${box.color};">
+                    <div class="data-box" style="--box-accent: ${box.color};">
                         <div class="box-header">
                             <div class="box-title-wrap">
-                                <span class="box-emoji">${box.emoji}</span>
-                                <span class="box-title">${box.label}</span>
+                                <span>${box.emoji}</span>
+                                <span>${box.label}</span>
                             </div>
-                            <div class="box-count-row">
-                                <span class="box-count">${items.length} itens</span>
-                                ${items.length > 0 ? `<button class="btn-clear-box" onclick="clearBox('${box.id}')" title="Esvaziar caixa">Limpar</button>` : ''}
-                            </div>
+                            ${items.length > 0 ? `<button class="btn-clear-box" onclick="clearBox('${box.id}')">Limpar</button>` : ''}
                         </div>
-
                         <div class="box-input-group">
                             <input type="text" id="input-${box.id}" class="box-input"
                                    placeholder="${box.placeholder}"
                                    onkeydown="if(event.key === 'Enter') addWord('${box.id}')">
                             <button class="btn-add-word" onclick="addWord('${box.id}')" title="Adicionar">+</button>
                         </div>
-
-                        <ul class="words-list">
-                            ${wordsHtml}
-                        </ul>
+                        <ul class="words-list">${wordsHtml}</ul>
                     </div>
                 `;
             }).join('');
@@ -1932,118 +1503,78 @@
             const input = document.getElementById(`input-${boxId}`);
             if (!input) return;
             const value = input.value.trim();
-
             if (!value) {
                 playSound('error');
                 showToast('Digite uma palavra antes de adicionar!', 'warn');
                 input.focus();
                 return;
             }
-
             appData[currentModeId][boxId].push(value);
             saveState();
-            input.value = '';
             renderBoxes();
             const nextInput = document.getElementById(`input-${boxId}`);
             if (nextInput) nextInput.focus();
             playSound('pop');
-            showToast(`"${value}" adicionado na caixa!`, 'success');
         }
 
-        function removeWord(boxId, wordIndex) {
-            appData[currentModeId][boxId].splice(wordIndex, 1);
+        function removeWord(boxId, idx) {
+            appData[currentModeId][boxId].splice(idx, 1);
             saveState();
             playSound('remove');
             renderBoxes();
         }
 
         function clearBox(boxId) {
-            const mode = getCurrentMode();
-            const box = mode.boxes.find(b => b.id === boxId);
-            openConfirmModal(
-                '🗑️ Esvaziar Caixa',
-                `Deseja remover todos os itens da caixa "${box ? box.label : ''}"?`,
-                () => {
-                    appData[currentModeId][boxId] = [];
-                    saveState();
-                    playSound('remove');
-                    renderBoxes();
-                    showToast('Caixa esvaziada.', 'warn');
-                }
-            );
+            appData[currentModeId][boxId] = [];
+            saveState();
+            playSound('remove');
+            renderBoxes();
         }
 
-        function requestResetDefaults() {
-            openConfirmModal(
-                '🔄 Restaurar Exemplos Padrão',
-                'Isso vai restaurar as palavras originais de todas as caixas em todos os níveis. Deseja continuar?',
-                () => {
-                    MODES_CONFIG.forEach(mode => {
-                        appData[mode.id] = {};
-                        mode.boxes.forEach(box => {
-                            appData[mode.id][box.id] = [...box.defaults];
-                        });
-                    });
-                    saveState();
-                    playSound('mode');
-                    renderBoxes();
-                    resetOutputStage();
-                    showToast('Exemplos padrão restaurados!', 'success');
-                }
-            );
-        }
-
-        // =========================================================================
-        // 4. PROCESSAMENTO (SORTEIO ANIMADO) E OUTPUT
-        // =========================================================================
-        function resetOutputStage() {
+        function resetDefaults() {
+            MODES_CONFIG.forEach(mode => {
+                appData[mode.id] = {};
+                mode.boxes.forEach(box => {
+                    appData[mode.id][box.id] = [...box.defaults];
+                });
+            });
+            saveState();
             lastDrawnResult = [];
-            document.getElementById('speak-btn').disabled = true;
-            document.getElementById('challenge-box').classList.remove('visible');
-            document.getElementById('output-cards-container').innerHTML = `
-                <div class="output-placeholder">
-                    <div style="font-size: 2rem; margin-bottom: 6px;">✨</div>
-                    <p>Clique em <strong>"PROCESSAR / SORTEAR DADOS!"</strong> acima para gerar uma frase!</p>
+            playSound('mode');
+            renderBoxes();
+            showToast('Palavras padrão restauradas!', 'success');
+        }
+
+        // =========================================================================
+        // PROCESSAMENTO E OUTPUT
+        // =========================================================================
+        function renderRouletteIdle() {
+            const mode = getCurrentMode();
+            document.getElementById('roulette-preview').innerHTML = mode.boxes.map(box => `
+                <div class="roulette-pill" style="--pill-color: ${box.color};">
+                    <span style="display:block;font-size:0.82rem;font-weight:700;color:#64748b;">${box.emoji} ${box.label}</span>
+                    <span style="font-size:1.35rem;font-weight:700;">❓</span>
                 </div>
-            `;
+            `).join('');
         }
 
         function startProcessing() {
             if (isProcessing) return;
             const mode = getCurrentMode();
 
-            // Verifica se todas as caixas têm pelo menos 1 item
-            for (const box of mode.boxes) {
-                const list = appData[mode.id][box.id] || [];
-                if (list.length === 0) {
-                    playSound('error');
-                    showToast(`A caixa "${box.label}" está vazia! Adicione pelo menos 1 item.`, 'warn');
-                    const inputEl = document.getElementById(`input-${box.id}`);
-                    if (inputEl) inputEl.focus();
-                    return;
-                }
-            }
-
             isProcessing = true;
             const btn = document.getElementById('process-btn');
             const icon = document.getElementById('process-icon');
             const text = document.getElementById('process-text');
-            const statusWrap = document.getElementById('processing-status');
+            const progressWrap = document.getElementById('processing-progress');
             const progressBar = document.getElementById('progress-bar');
+            const preview = document.getElementById('roulette-preview');
 
             btn.disabled = true;
             icon.classList.add('spinning');
-            text.textContent = 'PROCESSANDO...';
-            statusWrap.classList.add('visible');
+            text.textContent = 'MISTURANDO AS CAIXAS...';
+            progressWrap.classList.add('visible');
             progressBar.style.width = '0%';
-            document.getElementById('challenge-box').classList.remove('visible');
-            document.getElementById('speak-btn').disabled = true;
-
-            // Chacoalha todas as caixas de input
-            mode.boxes.forEach(box => {
-                const card = document.getElementById(`box-card-${box.id}`);
-                if (card) card.classList.add('shaking');
-            });
 
             const duration = 1400;
             const interval = 85;
@@ -2053,22 +1584,19 @@
             const timer = setInterval(() => {
                 elapsed += interval;
                 stepCount++;
-                const pct = Math.min((elapsed / duration) * 100, 100);
-                progressBar.style.width = `${pct}%`;
+                progressBar.style.width = `${Math.min((elapsed / duration) * 100, 100)}%`;
                 playSound('tick', stepCount);
 
-                // Mostra prévia embaralhada rápida no palco de output
-                const previewHtml = mode.boxes.map(box => {
+                preview.innerHTML = mode.boxes.map(box => {
                     const list = appData[mode.id][box.id];
                     const randWord = list[Math.floor(Math.random() * list.length)];
                     return `
-                        <div class="result-card" style="--card-color: ${box.color}; opacity: 0.75;">
-                            <span class="result-card-cat">${box.emoji} ${box.label}</span>
-                            <span class="result-card-word">${escapeHtml(randWord)}</span>
+                        <div class="roulette-pill" style="--pill-color: ${box.color};">
+                            <span style="display:block;font-size:0.82rem;font-weight:700;color:#64748b;">${box.emoji} ${box.label}</span>
+                            <span style="font-size:1.35rem;font-weight:700;">${escapeHtml(randWord)}</span>
                         </div>
                     `;
                 }).join('');
-                document.getElementById('output-cards-container').innerHTML = previewHtml;
 
                 if (elapsed >= duration) {
                     clearInterval(timer);
@@ -2078,89 +1606,42 @@
         }
 
         function finishProcessing(mode) {
-            // Para animação das caixas
-            mode.boxes.forEach(box => {
-                const card = document.getElementById(`box-card-${box.id}`);
-                if (card) card.classList.remove('shaking');
-            });
-
-            // Sorteio final
             lastDrawnResult = mode.boxes.map(box => {
                 const list = appData[mode.id][box.id];
                 const chosen = list[Math.floor(Math.random() * list.length)];
-                return {
-                    label: box.label,
-                    emoji: box.emoji,
-                    color: box.color,
-                    word: chosen
-                };
+                return { label: box.label, emoji: box.emoji, color: box.color, word: chosen };
             });
 
-            // Renderiza cartões finais
-            const stage = document.getElementById('output-cards-container');
-            stage.innerHTML = lastDrawnResult.map(item => `
-                <div class="result-card" style="--card-color: ${item.color};">
-                    <span class="result-card-cat">${item.emoji} ${item.label}</span>
-                    <span class="result-card-word">${escapeHtml(item.word)}</span>
-                </div>
-            `).join('');
-
-            // Deixa o campo da criança COMPLETAMENTE EM BRANCO para ela digitar a frase
-            const inputFinal = document.getElementById('final-sentence-input');
-            inputFinal.value = '';
-            inputFinal.classList.remove('animate-input-error');
-
-            document.getElementById('challenge-box').classList.add('visible');
-            document.getElementById('speak-btn').disabled = false;
-
-            // Som mágico de revelação
-            playSound('reveal');
-
-            // Restaura botão de processamento
             isProcessing = false;
             const btn = document.getElementById('process-btn');
             const icon = document.getElementById('process-icon');
             const text = document.getElementById('process-text');
-            const statusWrap = document.getElementById('processing-status');
-
             btn.disabled = false;
             icon.classList.remove('spinning');
-            text.textContent = 'PROCESSAR / SORTEAR DADOS!';
-            statusWrap.classList.remove('visible');
+            text.textContent = 'SORTEAR PALAVRAS AGORA!';
+            document.getElementById('processing-progress').classList.remove('visible');
 
-            setTimeout(() => {
-                inputFinal.focus();
-            }, 250);
+            document.getElementById('output-cards-container').innerHTML = lastDrawnResult.map(item => `
+                <div class="result-card" style="--card-color: ${item.color};">
+                    <span style="display:block;font-size:0.9rem;font-weight:700;color:#475569;margin-bottom:6px;">${item.emoji} ${item.label}</span>
+                    <span style="font-size:1.55rem;font-weight:700;">${escapeHtml(item.word)}</span>
+                </div>
+            `).join('');
+
+            const inputFinal = document.getElementById('final-sentence-input');
+            inputFinal.value = '';
+            inputFinal.classList.remove('animate-input-error');
+
+            playSound('reveal');
+            goToSubStep(3, true);
+            setTimeout(() => inputFinal.focus(), 200);
         }
 
         // =========================================================================
-        // 5. SÍNTESE DE VOZ E MURAL DA TURMA
+        // VALIDAÇÃO DAS CAIXAS SORTEADAS + VOZ + RECOMPENSA DOS DESENHOS
         // =========================================================================
-        function speakText(textToRead) {
-            if (!('speechSynthesis' in window)) {
-                showToast('Seu navegador não suporta leitura em voz alta.', 'warn');
-                return;
-            }
-            window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(textToRead);
-            utterance.lang = 'pt-BR';
-            utterance.rate = 0.95;
-            window.speechSynthesis.speak(utterance);
-        }
-
-        function speakSentence() {
-            const inputVal = document.getElementById('final-sentence-input').value.trim();
-            const fallback = lastDrawnResult.map(r => r.word).join(' ');
-            const text = inputVal || fallback;
-            if (text) speakText(text);
-        }
-
         function normalizarTexto(txt) {
-            return txt
-                .toLowerCase()
-                .normalize('NFD')
-                .replace(/[\u0300-\u036f]/g, '') // ignora acentos e maiúsculas/minúsculas
-                .trim();
+            return txt.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
         }
 
         function completeSentence() {
@@ -2169,17 +1650,12 @@
 
             if (!lastDrawnResult || lastDrawnResult.length === 0) {
                 playSound('error');
-                showToast('Sorteie os cartões antes de concluir a frase!', 'warn');
+                showToast('Sorteie as palavras primeiro!', 'warn');
                 return;
             }
 
             const fraseNorm = normalizarTexto(sentence);
-
-            // Verifica se a frase contém o conteúdo de todas as caixas sorteadas
-            const faltando = lastDrawnResult.filter(item => {
-                const palavraNorm = normalizarTexto(item.word);
-                return !fraseNorm.includes(palavraNorm);
-            });
+            const faltando = lastDrawnResult.filter(item => !fraseNorm.includes(normalizarTexto(item.word)));
 
             if (faltando.length > 0) {
                 playSound('error');
@@ -2192,7 +1668,6 @@
                 return;
             }
 
-            // Validado! Comemora e salva no Mural
             input.classList.remove('animate-input-error');
             playSound('fanfare');
 
@@ -2201,185 +1676,99 @@
             saveHistory();
             renderCompletedHistory();
             launchConfetti();
-            showToast('🎉 Frase concluída e salva no Mural da Turma!', 'success');
+            showToast('🎉 Parabéns! Frase validada! Veja os desenhos da turma!', 'success');
+
+            setTimeout(() => openGalleryDrawer(), 900);
+        }
+
+        function speakText(textToRead) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(textToRead);
+            u.lang = 'pt-BR';
+            u.rate = 0.95;
+            window.speechSynthesis.speak(u);
+        }
+
+        function speakSentence() {
+            const inputVal = document.getElementById('final-sentence-input').value.trim();
+            const fallback = lastDrawnResult.map(r => r.word).join(' ');
+            speakText(inputVal || fallback);
         }
 
         function renderCompletedHistory() {
             const wrapper = document.getElementById('completed-history-wrapper');
             const listEl = document.getElementById('completed-list');
-
             if (completedSentences.length === 0) {
                 wrapper.classList.remove('visible');
                 return;
             }
-
             wrapper.classList.add('visible');
-            listEl.innerHTML = completedSentences.map((sentence, idx) => `
+            listEl.innerHTML = completedSentences.map((s, idx) => `
                 <li class="mural-item">
-                    <span>⭐ ${escapeHtml(sentence)}</span>
-                    <button class="btn-speak-mini" onclick="speakText(completedSentences[${idx}])" title="Ouvir frase">🔊 Ouvir</button>
+                    <span>⭐ ${escapeHtml(s)}</span>
+                    <button onclick="speakText(completedSentences[${idx}])" style="background:#ede9fe;color:#5b21b6;padding:5px 10px;border-radius:10px;font-weight:700;font-size:0.85rem;">🔊 Ouvir</button>
                 </li>
             `).join('');
         }
 
         function clearCompletedHistory() {
-            openConfirmModal(
-                '🗑️ Limpar Mural da Turma',
-                'Deseja apagar todas as frases concluídas do mural?',
-                () => {
-                    completedSentences = [];
-                    saveHistory();
-                    renderCompletedHistory();
-                    showToast('Mural limpo.', 'warn');
-                }
-            );
+            completedSentences = [];
+            saveHistory();
+            renderCompletedHistory();
         }
 
         // =========================================================================
-        // 6. SIDEBAR: GALERIA DA TURMA EM LOOP (PASTA ./desenhos/)
+        // MENU HAMBÚRGUER: GALERIA DOS 59 DESENHOS
         // =========================================================================
-        function createSampleSVG(bgColor, emojiMain, emojiSub, captionText) {
-            const svg = `
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
-                    <rect width="400" height="300" fill="${bgColor}" />
-                    <rect x="16" y="16" width="368" height="268" rx="18" fill="#ffffff" stroke="#cbd5e1" stroke-width="4" stroke-dasharray="10 8" />
-                    <circle cx="64" cy="62" r="22" fill="#fde047" />
-                    <text x="330" y="68" font-size="32" text-anchor="middle">☁️</text>
-                    <text x="160" y="168" font-size="82" text-anchor="middle">${emojiMain}</text>
-                    <text x="258" y="174" font-size="64" text-anchor="middle">${emojiSub}</text>
-                    <rect x="36" y="214" width="328" height="46" rx="12" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2" />
-                    <text x="200" y="242" font-family="sans-serif" font-weight="bold" font-size="16" fill="#1e293b" text-anchor="middle">${captionText}</text>
-                </svg>
-            `.trim();
-            return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
-        }
-
-        const SAMPLE_DRAWINGS = [
-            { name: 'Exemplo 1 - O Cachorro no Sofá', url: createSampleSVG('#dbeafe', '🐕', '🛋️', 'O cachorro pulou no sofá!') },
-            { name: 'Exemplo 2 - O Robô no Parque', url: createSampleSVG('#fae8ff', '🤖', '🌳', 'O robô correu no parque!') },
-            { name: 'Exemplo 3 - O Sapo na Chuva', url: createSampleSVG('#d1fae5', '🐸', '🌧️', 'O sapo pulou a poça!') },
-            { name: 'Exemplo 4 - A Criança na Praia', url: createSampleSVG('#fef3c7', '🧒', '🍦', 'A criança tomou sorvete!') }
-        ];
-
         let galleryItems = [];
         let galleryIndex = 0;
-        let galleryIsPlaying = true;
         let galleryIntervalMs = 5000;
-        let galleryProgressId = null;
         let galleryElapsedMs = 0;
+        let galleryProgressId = null;
+        let galleryIsPlaying = true;
 
-        async function initGallery() {
-            galleryItems = [...SAMPLE_DRAWINGS];
+        function initGallery() {
+            galleryItems = Array.from({ length: TOTAL_DESENHOS }, (_, i) => ({
+                name: `Desenho #${i + 1} da Turma`,
+                url: `${PASTA_DESENHOS}${i + 1}.jpg`
+            }));
             galleryIndex = 0;
             updateGalleryUI();
             startGalleryLoop();
-            await scanLocalDrawingsFolder();
         }
 
-        function formatFileCaption(filename) {
-            const clean = decodeURIComponent(filename)
-                .split('/').pop()
-                .replace(/\.[^/.]+$/, '')
-                .replace(/[-_]+/g, ' ')
-                .trim();
-            if (!clean) return 'Desenho da Turma';
-            return clean.replace(/\b\w/g, c => c.toUpperCase());
+        function openGalleryDrawer() {
+            document.getElementById('drawer-backdrop').classList.add('open');
+            document.getElementById('gallery-drawer').classList.add('open');
         }
 
-        function checkImageExists(url) {
-            return new Promise(resolve => {
-                const img = new Image();
-                img.onload = () => resolve(url);
-                img.onerror = () => resolve(null);
-                img.src = url;
-            });
+        function closeGalleryDrawer() {
+            document.getElementById('drawer-backdrop').classList.remove('open');
+            document.getElementById('gallery-drawer').classList.remove('open');
         }
 
-        // Busca 1: via ./desenhos/lista.json
-        async function discoverFromJsonManifest() {
-            const found = [];
-            try {
-                const res = await fetch(`${PASTA_DESENHOS}lista.json`, { cache: 'no-store' });
-                if (!res.ok) return found;
-                const data = await res.json();
-                const list = Array.isArray(data) ? data : (Array.isArray(data.arquivos) ? data.arquivos : []);
-                list.forEach(item => {
-                    if (typeof item === 'string' && /\.(jpe?g|png|gif|webp|bmp|svg)$/i.test(item)) {
-                        const cleanPath = item.startsWith(PASTA_DESENHOS) ? item : PASTA_DESENHOS + item.replace(/^\.?\//, '');
-                        found.push(cleanPath);
-                    }
-                });
-            } catch (e) {}
-            return found;
-        }
-
-        // Busca 2: via listagem HTML de servidor local (Live Server, Python http.server, etc.)
-        async function discoverFromDirectoryListing() {
-            const found = [];
-            try {
-                const res = await fetch(PASTA_DESENHOS, { cache: 'no-store' });
-                if (!res.ok) return found;
-                const cType = res.headers.get('content-type') || '';
-                if (!cType.includes('text/html')) return found;
-
-                const html = await res.text();
-                const doc = new DOMParser().parseFromString(html, 'text/html');
-                doc.querySelectorAll('a[href]').forEach(a => {
-                    const href = a.getAttribute('href') || '';
-                    if (/\.(jpe?g|png|gif|webp|bmp|svg)$/i.test(href) && !href.startsWith('http')) {
-                        const fileName = href.split('/').pop();
-                        if (fileName) found.push(PASTA_DESENHOS + fileName);
-                    }
-                });
-            } catch (e) {}
-            return found;
-        }
-
-        async function scanLocalDrawingsFolder() {
-            const badgeEl = document.getElementById('gallery-badge-source');
-            const infoEl = document.getElementById('gallery-folder-info');
-
-            galleryItems = LISTA_DESENHOS.map((arquivo, idx) => ({
-                name: `Desenho ${idx + 1} da Turma`,
-                url: `${PASTA_DESENHOS}${arquivo}`
-            }));
-
-            galleryIndex = 0;
-            badgeEl.textContent = `${galleryItems.length} fotos`;
-            infoEl.innerHTML = `Pasta <code>./${PASTA_DESENHOS}</code> (${galleryItems.length} desenhos)`;
-
-            updateGalleryUI();
-        }
         function updateGalleryUI() {
-            if (!galleryItems || galleryItems.length === 0) return;
+            if (galleryItems.length === 0) return;
             const item = galleryItems[galleryIndex];
             const imgEl = document.getElementById('gallery-current-img');
-            const capEl = document.getElementById('gallery-caption');
-            const cntEl = document.getElementById('gallery-counter');
-
-            imgEl.classList.remove('slide-animate');
-            void imgEl.offsetWidth;
             imgEl.src = item.url;
             imgEl.alt = item.name;
-            imgEl.classList.add('slide-animate');
-
-            capEl.textContent = item.name;
-            capEl.title = item.name;
-            cntEl.textContent = `${galleryIndex + 1} / ${galleryItems.length}`;
-
+            document.getElementById('gallery-caption').textContent = item.name;
+            document.getElementById('gallery-counter').textContent = `${galleryIndex + 1} / ${galleryItems.length}`;
             galleryElapsedMs = 0;
             const bar = document.getElementById('gallery-timer-bar');
             if (bar) bar.style.width = '0%';
         }
 
         function nextSlide() {
-            if (!galleryItems || galleryItems.length === 0) return;
+            if (galleryItems.length === 0) return;
             galleryIndex = (galleryIndex + 1) % galleryItems.length;
             updateGalleryUI();
         }
 
         function prevSlide() {
-            if (!galleryItems || galleryItems.length === 0) return;
+            if (galleryItems.length === 0) return;
             galleryIndex = (galleryIndex - 1 + galleryItems.length) % galleryItems.length;
             updateGalleryUI();
         }
@@ -2388,17 +1777,13 @@
             stopGalleryLoop();
             galleryIsPlaying = true;
             updatePlayBtnUI();
-
             const tick = 100;
             galleryProgressId = setInterval(() => {
                 galleryElapsedMs += tick;
                 const pct = Math.min((galleryElapsedMs / galleryIntervalMs) * 100, 100);
                 const bar = document.getElementById('gallery-timer-bar');
                 if (bar) bar.style.width = `${pct}%`;
-
-                if (galleryElapsedMs >= galleryIntervalMs) {
-                    nextSlide();
-                }
+                if (galleryElapsedMs >= galleryIntervalMs) nextSlide();
             }, tick);
         }
 
@@ -2423,7 +1808,6 @@
             const btn = document.getElementById('gallery-play-btn');
             const icon = document.getElementById('gallery-play-icon');
             const text = document.getElementById('gallery-play-text');
-
             if (galleryIsPlaying) {
                 btn.classList.remove('paused');
                 icon.textContent = '⏸️';
@@ -2436,157 +1820,57 @@
         }
 
         function changeGallerySpeed() {
-            const sel = document.getElementById('gallery-speed');
-            galleryIntervalMs = parseInt(sel.value, 10) || 5000;
+            galleryIntervalMs = parseInt(document.getElementById('gallery-speed').value, 10) || 5000;
             galleryElapsedMs = 0;
             if (galleryIsPlaying) startGalleryLoop();
         }
-        // =========================================================================
-        // 7. UTILITÁRIOS (TOAST, MODAIS, CONFETES OFFLINE, ESCAPE HTML)
-        // =========================================================================
+
         function escapeHtml(str) {
-            return String(str)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;')
-                .replace(/'/g, '&#39;');
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
 
-        function showToast(message, type = 'info') {
+        function showToast(msg, type = 'info') {
             const container = document.getElementById('toast-container');
             const el = document.createElement('div');
             el.className = `toast-msg ${type}`;
-            el.textContent = message;
+            el.textContent = msg;
             container.appendChild(el);
-            setTimeout(() => {
-                el.style.opacity = '0';
-                el.style.transition = 'opacity 0.3s';
-                setTimeout(() => el.remove(), 300);
-            }, 2800);
+            setTimeout(() => el.remove(), 3200);
         }
 
-        function openConfirmModal(title, message, onConfirm) {
-            const modal = document.getElementById('confirm-modal');
-            document.getElementById('confirm-title').textContent = title;
-            document.getElementById('confirm-message').textContent = message;
-            modal.classList.add('open');
-
-            const cancelBtn = document.getElementById('confirm-cancel-btn');
-            const okBtn = document.getElementById('confirm-ok-btn');
-
-            const cleanup = () => modal.classList.remove('open');
-            cancelBtn.onclick = cleanup;
-            okBtn.onclick = () => {
-                cleanup();
-                onConfirm();
-            };
-        }
-
-        function openHelpModal() {
-            document.getElementById('help-modal').classList.add('open');
-        }
-
-        function closeHelpModal() {
-            document.getElementById('help-modal').classList.remove('open');
-        }
-
-        function copyPsCommand() {
-            const cmd = document.getElementById('ps-command-text').textContent;
-            const textarea = document.createElement('textarea');
-            textarea.value = cmd;
-            document.body.appendChild(textarea);
-            textarea.select();
-            try {
-                document.execCommand('copy');
-                showToast('Comando copiado para a área de transferência!', 'success');
-            } catch (e) {
-                showToast('Selecione e copie o comando manualmente.', 'warn');
-            }
-            document.body.removeChild(textarea);
-        }
-
-        // Efeito de confetes em Canvas puro (100% offline)
         function launchConfetti() {
             const canvas = document.getElementById('confetti-canvas');
             const ctx = canvas.getContext('2d');
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-
-            const colors = ['#2563eb', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6', '#ef4444'];
+            const colors = ['#7c3aed', '#f59e0b', '#10b981', '#3b82f6', '#ec4899'];
             const pieces = Array.from({ length: 90 }, () => ({
                 x: Math.random() * canvas.width,
-                y: -20 - Math.random() * 120,
-                w: 8 + Math.random() * 6,
-                h: 5 + Math.random() * 5,
-                color: colors[Math.floor(Math.random() * colors.length)],
-                vx: (Math.random() - 0.5) * 4,
+                y: -20 - Math.random() * 200,
+                r: 5 + Math.random() * 6,
+                c: colors[Math.floor(Math.random() * colors.length)],
                 vy: 3 + Math.random() * 4,
-                rot: Math.random() * 360,
-                vRot: (Math.random() - 0.5) * 10
+                vx: -2 + Math.random() * 4
             }));
-
-            let frames = 0;
+            let frame = 0;
             function draw() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 pieces.forEach(p => {
                     p.x += p.vx;
                     p.y += p.vy;
-                    p.rot += p.vRot;
-                    ctx.save();
-                    ctx.translate(p.x, p.y);
-                    ctx.rotate((p.rot * Math.PI) / 180);
-                    ctx.fillStyle = p.color;
-                    ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
-                    ctx.restore();
+                    ctx.fillStyle = p.c;
+                    ctx.fillRect(p.x, p.y, p.r, p.r);
                 });
-                frames++;
-                if (frames < 110) {
-                    requestAnimationFrame(draw);
-                } else {
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                }
+                if (++frame < 95) requestAnimationFrame(draw);
+                else ctx.clearRect(0, 0, canvas.width, canvas.height);
             }
             draw();
         }
 
-        // =========================================================================
-        // 8. INICIALIZAÇÃO DA APLICAÇÃO
-        // =========================================================================
-        function loadInitialState() {
-            let saved = null;
-            try {
-                const raw = localStorage.getItem(STORAGE_KEY);
-                if (raw) saved = JSON.parse(raw);
-            } catch (e) {}
-
-            MODES_CONFIG.forEach(mode => {
-                appData[mode.id] = {};
-                mode.boxes.forEach(box => {
-                    if (saved && saved[mode.id] && Array.isArray(saved[mode.id][box.id])) {
-                        appData[mode.id][box.id] = [...saved[mode.id][box.id]];
-                    } else {
-                        appData[mode.id][box.id] = [...box.defaults];
-                    }
-                });
-            });
-
-            try {
-                const rawHist = localStorage.getItem(HISTORY_KEY);
-                if (rawHist) {
-                    const parsedHist = JSON.parse(rawHist);
-                    if (Array.isArray(parsedHist)) completedSentences = parsedHist;
-                }
-            } catch (e) {}
-        }
-
-        window.onload = function () {
-            loadInitialState();
-            renderModeTabs();
-            renderBoxes();
-            renderCompletedHistory();
-            initGallery();
-        };
+        initAppData();
+        renderLevelCards();
+        renderCompletedHistory();
+        initGallery();
     </script>
 </body>
 </html>
